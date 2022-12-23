@@ -29,12 +29,16 @@ public class home extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        navbar = new javax.swing.JPanel();
-        Pmenu = new javax.swing.JPanel();
+        navbarPanel = new javax.swing.JPanel();
+        menuPanel = new javax.swing.JPanel();
         navbarDashboard = new javax.swing.JPanel();
         dashboardLabel = new javax.swing.JLabel();
         navbarData = new javax.swing.JPanel();
         dataLabel = new javax.swing.JLabel();
+        subDataMasuk = new javax.swing.JPanel();
+        dataLabel1 = new javax.swing.JLabel();
+        subDataKeluar = new javax.swing.JPanel();
+        dataLabel2 = new javax.swing.JLabel();
         navbarComing = new javax.swing.JPanel();
         comingLabel = new javax.swing.JLabel();
         img = new javax.swing.JLabel();
@@ -42,18 +46,26 @@ public class home extends javax.swing.JFrame {
         logout = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         mainDashboard = new javax.swing.JPanel();
-        mainData = new javax.swing.JPanel();
+        mainDataMasuk = new javax.swing.JPanel();
+        mainDataKeluar = new javax.swing.JPanel();
         mainComing = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Inventaris Aset");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.X_AXIS));
 
-        navbar.setBackground(new java.awt.Color(255, 255, 255));
+        navbarPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        Pmenu.setLayout(new javax.swing.BoxLayout(Pmenu, javax.swing.BoxLayout.Y_AXIS));
+        menuPanel.setBackground(new java.awt.Color(255, 255, 255));
 
+        navbarDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        navbarDashboard.setPreferredSize(new java.awt.Dimension(183, 40));
         navbarDashboard.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navbarDashboardMouseClicked(evt);
@@ -69,16 +81,17 @@ public class home extends javax.swing.JFrame {
         navbarDashboardLayout.setHorizontalGroup(
             navbarDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarDashboardLayout.createSequentialGroup()
-                .addGap(0, 34, Short.MAX_VALUE)
-                .addComponent(dashboardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 18, Short.MAX_VALUE)
+                .addComponent(dashboardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         navbarDashboardLayout.setVerticalGroup(
             navbarDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dashboardLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(dashboardLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        Pmenu.add(navbarDashboard);
+        menuPanel.add(navbarDashboard);
 
+        navbarData.setBackground(new java.awt.Color(255, 255, 255));
         navbarData.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navbarDataMouseClicked(evt);
@@ -94,16 +107,70 @@ public class home extends javax.swing.JFrame {
         navbarDataLayout.setHorizontalGroup(
             navbarDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarDataLayout.createSequentialGroup()
-                .addGap(0, 34, Short.MAX_VALUE)
-                .addComponent(dataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 18, Short.MAX_VALUE)
+                .addComponent(dataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         navbarDataLayout.setVerticalGroup(
             navbarDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(dataLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        Pmenu.add(navbarData);
+        menuPanel.add(navbarData);
 
+        subDataMasuk.setBackground(new java.awt.Color(255, 255, 255));
+        subDataMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subDataMasukMouseClicked(evt);
+            }
+        });
+
+        dataLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        dataLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_in.png"))); // NOI18N
+        dataLabel1.setText("Aset Masuk");
+
+        javax.swing.GroupLayout subDataMasukLayout = new javax.swing.GroupLayout(subDataMasuk);
+        subDataMasuk.setLayout(subDataMasukLayout);
+        subDataMasukLayout.setHorizontalGroup(
+            subDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subDataMasukLayout.createSequentialGroup()
+                .addGap(0, 43, Short.MAX_VALUE)
+                .addComponent(dataLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        subDataMasukLayout.setVerticalGroup(
+            subDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(dataLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        menuPanel.add(subDataMasuk);
+
+        subDataKeluar.setBackground(new java.awt.Color(255, 255, 255));
+        subDataKeluar.setPreferredSize(new java.awt.Dimension(183, 30));
+        subDataKeluar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subDataKeluarMouseClicked(evt);
+            }
+        });
+
+        dataLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        dataLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_out.png"))); // NOI18N
+        dataLabel2.setText(" Aset Keluar");
+
+        javax.swing.GroupLayout subDataKeluarLayout = new javax.swing.GroupLayout(subDataKeluar);
+        subDataKeluar.setLayout(subDataKeluarLayout);
+        subDataKeluarLayout.setHorizontalGroup(
+            subDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subDataKeluarLayout.createSequentialGroup()
+                .addGap(0, 45, Short.MAX_VALUE)
+                .addComponent(dataLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        subDataKeluarLayout.setVerticalGroup(
+            subDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(dataLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        menuPanel.add(subDataKeluar);
+
+        navbarComing.setBackground(new java.awt.Color(255, 255, 255));
         navbarComing.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navbarComingMouseClicked(evt);
@@ -119,15 +186,15 @@ public class home extends javax.swing.JFrame {
         navbarComingLayout.setHorizontalGroup(
             navbarComingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarComingLayout.createSequentialGroup()
-                .addGap(0, 34, Short.MAX_VALUE)
-                .addComponent(comingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 18, Short.MAX_VALUE)
+                .addComponent(comingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         navbarComingLayout.setVerticalGroup(
             navbarComingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(comingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(comingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
         );
 
-        Pmenu.add(navbarComing);
+        menuPanel.add(navbarComing);
 
         img.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/user.png"))); // NOI18N
@@ -141,67 +208,82 @@ public class home extends javax.swing.JFrame {
         logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
         logout.setText("Logout");
 
-        javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
-        navbar.setLayout(navbarLayout);
-        navbarLayout.setHorizontalGroup(
-            navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(Pmenu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(navbarLayout.createSequentialGroup()
+        javax.swing.GroupLayout navbarPanelLayout = new javax.swing.GroupLayout(navbarPanel);
+        navbarPanel.setLayout(navbarPanelLayout);
+        navbarPanelLayout.setHorizontalGroup(
+            navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navbarPanelLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(img, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                     .addComponent(user, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(navbarLayout.createSequentialGroup()
-                .addComponent(logout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addContainerGap(57, Short.MAX_VALUE))
+            .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+            .addGroup(navbarPanelLayout.createSequentialGroup()
+                .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-        navbarLayout.setVerticalGroup(
-            navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navbarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+        navbarPanelLayout.setVerticalGroup(
+            navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navbarPanelLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(img)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Pmenu, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 174, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
+                .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        getContentPane().add(navbar);
+        getContentPane().add(navbarPanel);
 
         mainPanel.setLayout(new java.awt.CardLayout());
 
-        mainDashboard.setBackground(new java.awt.Color(204, 255, 255));
+        mainDashboard.setBackground(new java.awt.Color(242, 242, 242));
 
         javax.swing.GroupLayout mainDashboardLayout = new javax.swing.GroupLayout(mainDashboard);
         mainDashboard.setLayout(mainDashboardLayout);
         mainDashboardLayout.setHorizontalGroup(
             mainDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
         mainDashboardLayout.setVerticalGroup(
             mainDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
 
         mainPanel.add(mainDashboard, "dashboard");
 
-        mainData.setBackground(new java.awt.Color(255, 204, 255));
+        mainDataMasuk.setBackground(new java.awt.Color(255, 204, 255));
 
-        javax.swing.GroupLayout mainDataLayout = new javax.swing.GroupLayout(mainData);
-        mainData.setLayout(mainDataLayout);
-        mainDataLayout.setHorizontalGroup(
-            mainDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+        javax.swing.GroupLayout mainDataMasukLayout = new javax.swing.GroupLayout(mainDataMasuk);
+        mainDataMasuk.setLayout(mainDataMasukLayout);
+        mainDataMasukLayout.setHorizontalGroup(
+            mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
-        mainDataLayout.setVerticalGroup(
-            mainDataLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+        mainDataMasukLayout.setVerticalGroup(
+            mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
 
-        mainPanel.add(mainData, "data");
+        mainPanel.add(mainDataMasuk, "dataMasuk");
+
+        mainDataKeluar.setBackground(new java.awt.Color(204, 255, 255));
+
+        javax.swing.GroupLayout mainDataKeluarLayout = new javax.swing.GroupLayout(mainDataKeluar);
+        mainDataKeluar.setLayout(mainDataKeluarLayout);
+        mainDataKeluarLayout.setHorizontalGroup(
+            mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 628, Short.MAX_VALUE)
+        );
+        mainDataKeluarLayout.setVerticalGroup(
+            mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 470, Short.MAX_VALUE)
+        );
+
+        mainPanel.add(mainDataKeluar, "dataKeluar");
 
         mainComing.setBackground(new java.awt.Color(255, 255, 204));
 
@@ -209,11 +291,11 @@ public class home extends javax.swing.JFrame {
         mainComing.setLayout(mainComingLayout);
         mainComingLayout.setHorizontalGroup(
             mainComingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 719, Short.MAX_VALUE)
+            .addGap(0, 628, Short.MAX_VALUE)
         );
         mainComingLayout.setVerticalGroup(
             mainComingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 487, Short.MAX_VALUE)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
 
         mainPanel.add(mainComing, "coming");
@@ -226,21 +308,49 @@ public class home extends javax.swing.JFrame {
 
     private void navbarDashboardMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarDashboardMouseClicked
         // TODO add your handling code here:
+        subDataMasuk.setVisible(false);
+        subDataKeluar.setVisible(false);
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "dashboard");
     }//GEN-LAST:event_navbarDashboardMouseClicked
 
     private void navbarDataMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarDataMouseClicked
         // TODO add your handling code here:
-        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
-        c1.show(mainPanel, "data");
+        if (subDataMasuk.isVisible()) {
+            subDataMasuk.setVisible(false);
+            subDataKeluar.setVisible(false);
+            
+        }else{
+            subDataMasuk.setVisible(true);
+            subDataKeluar.setVisible(true);
+        }
     }//GEN-LAST:event_navbarDataMouseClicked
 
     private void navbarComingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarComingMouseClicked
         // TODO add your handling code here:
+        subDataMasuk.setVisible(false);
+        subDataKeluar.setVisible(false);
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "coming");
     }//GEN-LAST:event_navbarComingMouseClicked
+
+    private void subDataMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDataMasukMouseClicked
+        // TODO add your handling code here:
+        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
+        c1.show(mainPanel, "dataMasuk");
+    }//GEN-LAST:event_subDataMasukMouseClicked
+
+    private void subDataKeluarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDataKeluarMouseClicked
+        // TODO add your handling code here:
+        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
+        c1.show(mainPanel, "dataKeluar");
+    }//GEN-LAST:event_subDataKeluarMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        subDataMasuk.setVisible(false);
+        subDataKeluar.setVisible(false);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -278,20 +388,25 @@ public class home extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel Pmenu;
     private javax.swing.JLabel comingLabel;
     private javax.swing.JLabel dashboardLabel;
     private javax.swing.JLabel dataLabel;
+    private javax.swing.JLabel dataLabel1;
+    private javax.swing.JLabel dataLabel2;
     private javax.swing.JLabel img;
     private javax.swing.JLabel logout;
     private javax.swing.JPanel mainComing;
     private javax.swing.JPanel mainDashboard;
-    private javax.swing.JPanel mainData;
+    private javax.swing.JPanel mainDataKeluar;
+    private javax.swing.JPanel mainDataMasuk;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JPanel navbar;
+    private javax.swing.JPanel menuPanel;
     private javax.swing.JPanel navbarComing;
     private javax.swing.JPanel navbarDashboard;
     private javax.swing.JPanel navbarData;
+    private javax.swing.JPanel navbarPanel;
+    private javax.swing.JPanel subDataKeluar;
+    private javax.swing.JPanel subDataMasuk;
     private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }
