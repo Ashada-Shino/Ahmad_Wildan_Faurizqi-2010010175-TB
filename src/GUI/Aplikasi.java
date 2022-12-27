@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import com.ashada.model.Aset;
-import com.ashada.model.Lokasi;
+import model.Aset;
+import model.Lokasi;
 import model.Model_Card;
 import javax.swing.ImageIcon;
 
@@ -93,7 +93,7 @@ public class Aplikasi extends javax.swing.JFrame {
             rs = st.executeQuery(query);
             while (rs.next()) {
                 aset = new Aset(
-                        rs.getString("id_aset"),
+                        rs.getInt("id_aset"),
                         rs.getString("nama_aset")
                         );
                 asetList.add(aset);
@@ -287,6 +287,11 @@ public class Aplikasi extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Inventaris Aset");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
         getContentPane().setLayout(new javax.swing.BoxLayout(getContentPane(), javax.swing.BoxLayout.X_AXIS));
 
         navbarPanel.setBackground(new java.awt.Color(255, 255, 255));
@@ -753,6 +758,11 @@ public class Aplikasi extends javax.swing.JFrame {
         btnEditAset.setAlignmentY(0.0F);
         btnEditAset.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEditAset.setPreferredSize(new java.awt.Dimension(132, 35));
+        btnEditAset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditAsetMouseClicked(evt);
+            }
+        });
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
@@ -1974,6 +1984,26 @@ public class Aplikasi extends javax.swing.JFrame {
         resetTable(" WHERE id_lokasi like '%"+eCariLokasi.getText()+"%' OR"
                 + " nama_lokasi like '%"+eCariLokasi.getText()+"%'");
     }//GEN-LAST:event_eCariLokasiKeyReleased
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        // TODO add your handling code here:
+        resetTable("");
+    }//GEN-LAST:event_formWindowActivated
+
+    private void btnEditAsetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditAsetMouseClicked
+        // TODO add your handling code here:
+        int i = tAset.getSelectedRow();
+        if(i>=0){
+            TableModel model = tAset.getModel();
+            aset = new Aset();
+            aset.setId_aset(Integer.parseInt(model.getValueAt(i, 0).toString()));
+            aset.setNama_aset(model.getValueAt(i, 1).toString());
+            AsetTambahData asetTambahData = new AsetTambahData(aset);
+            asetTambahData.setVisible(true);
+        }else{
+        JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
+        }
+    }//GEN-LAST:event_btnEditAsetMouseClicked
 
     /**
      * @param args the command line arguments

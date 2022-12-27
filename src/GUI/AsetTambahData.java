@@ -5,6 +5,12 @@
  */
 package GUI;
 
+import model.Aset;
+import db.Koneksi;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author Ashada
@@ -22,7 +28,16 @@ public class AsetTambahData extends javax.swing.JFrame {
         initComponents();
         status = SEDANG_TAMBAH;
         setLocationRelativeTo(null);
+        eNamaAset.requestFocus();
         
+    }
+    public AsetTambahData(Aset aset){
+        initComponents();
+        status = SEDANG_UBAH;
+        setLocationRelativeTo(null);
+        eIDAset.setText(String.valueOf(aset.getId_aset()));
+        eNamaAset.setText(aset.getNama_aset());
+        eIDAset.requestFocus();
     }
 
     /**
@@ -66,6 +81,11 @@ public class AsetTambahData extends javax.swing.JFrame {
         jLabel2.setText("Nama");
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -173,7 +193,32 @@ public class AsetTambahData extends javax.swing.JFrame {
 
     private void jPanel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseClicked
         // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_jPanel3MouseClicked
+
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        // TODO add your handling code here:
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement ps;
+            if (status==SEDANG_TAMBAH) {
+                String executeQuery = "INSERT INTO tbl_aset" + "(nama_aset) value (?)";
+                ps = con.prepareStatement(executeQuery);
+                ps.setString(1, eNamaAset.getText());
+            }else{
+                String executeQuery = "update tbl_aset set nama_aset=? WHERE id_aset=?";
+                ps = con.prepareStatement(executeQuery);
+                ps.setString(1, eNamaAset.getText());
+                ps.setString(2, eIDAset.getText());
+            }
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
+        dispose();
+    }//GEN-LAST:event_jPanel2MouseClicked
 
     /**
      * @param args the command line arguments
