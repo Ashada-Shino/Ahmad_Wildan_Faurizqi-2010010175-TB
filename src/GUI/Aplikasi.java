@@ -39,9 +39,9 @@ public class Aplikasi extends javax.swing.JFrame {
     public Aplikasi() {
         initComponents();
         
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/raven/icon/stock.png")), "Aset","4", "Total Jumlah Aset"));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/raven/icon/profit.png")), "Aset Masuk", "15", "Total Jumlah Aset Masuk"));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/com/raven/icon/flag.png")), "Aset Keluar", "30", "Total Jumlah Aset Keluar"));
+        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/stock.png")), "Aset","4", "Total Jumlah Aset"));
+        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/profit.png")), "Aset Masuk", "15", "Total Jumlah Aset Masuk"));
+        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/flag.png")), "Aset Keluar", "30", "Total Jumlah Aset Keluar"));
         
         setLocationRelativeTo(null);
         
@@ -80,7 +80,7 @@ public class Aplikasi extends javax.swing.JFrame {
     }
             /* Tampilkan data ke tabel aset */
     public ArrayList<Aset> getAsetList(String keyword){
-        ArrayList<Aset> asetList = new ArrayList<Aset>();
+        ArrayList<Aset> asetList = new ArrayList<>();
         Koneksi koneksi = new Koneksi();
         Connection connection = koneksi.getConnection();
         
@@ -99,7 +99,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 asetList.add(aset);
             }
         } catch (SQLException | NullPointerException ex) {
-            System.err.println("Koneksi Null gagal");
+            System.err.println("Koneksi Database Aset Gagal");
         }
         return asetList;
     }
@@ -141,7 +141,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 lokasiList.add(lokasi);
             }
         } catch (SQLException | NullPointerException ex) {
-            System.err.println("Koneksi Null gagal");
+            System.err.println("Koneksi Database Lokasi Gagal");
         }
         return lokasiList;
     }
@@ -888,7 +888,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Kode Aset", "Nama Aset"
+                "ID Aset", "Nama Aset"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -903,9 +903,11 @@ public class Aplikasi extends javax.swing.JFrame {
         tAset.setRowHeight(25);
         tAset.setSelectionBackground(new java.awt.Color(127, 178, 255));
         tAset.setShowHorizontalLines(false);
+        tAset.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tAset);
         if (tAset.getColumnModel().getColumnCount() > 0) {
             tAset.getColumnModel().getColumn(0).setResizable(false);
+            tAset.getColumnModel().getColumn(0).setPreferredWidth(10);
             tAset.getColumnModel().getColumn(1).setResizable(false);
         }
 

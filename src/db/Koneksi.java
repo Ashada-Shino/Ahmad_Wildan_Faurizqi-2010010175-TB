@@ -23,10 +23,10 @@ public class Koneksi {
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection(URL,USER,PASS);
-            System.out.println("Koneksi Berhasil");
+            System.out.println("Koneksi Database Berhasil");
             return con;
         } catch (ClassNotFoundException | SQLException ex) {
-            System.err.println("Koneksi Gagal");
+            System.err.println("Koneksi Database Gagal");
             return con=null;
         }
     }

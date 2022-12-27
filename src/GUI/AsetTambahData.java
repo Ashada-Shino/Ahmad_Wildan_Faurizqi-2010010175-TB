@@ -70,6 +70,7 @@ public class AsetTambahData extends javax.swing.JFrame {
         eIDAset.setEditable(false);
         eIDAset.setBackground(new java.awt.Color(255, 255, 255));
         eIDAset.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        eIDAset.setText("ID Dibuat Otomatis");
         eIDAset.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
         eIDAset.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
