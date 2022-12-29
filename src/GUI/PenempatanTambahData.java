@@ -16,6 +16,8 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import model.KeyValue;
+import model.Aset;
+import model.Lokasi;
 import model.Penempatan;
 
 /**
@@ -181,7 +183,6 @@ public class PenempatanTambahData extends javax.swing.JFrame {
         jLabel5.setText("Nama Aset");
 
         cbIDLokasi.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        cbIDLokasi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbIDLokasi.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 1, 2, 1, new java.awt.Color(0, 153, 255)));
         cbIDLokasi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -320,6 +321,38 @@ public class PenempatanTambahData extends javax.swing.JFrame {
 
     private void btnSimpanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSimpanMouseClicked
         // TODO add your handling code here:
+        Penempatan penempatan = new Penempatan();
+        
+        Aset aset = new Aset();
+        aset.setId_aset(((KeyValue)cbIDAset.getSelectedItem()).getKey());
+        penempatan.setAset(aset);
+        
+        Lokasi lokasi = new Lokasi();
+        lokasi.setId_lokasi(((KeyValue)cbIDLokasi.getSelectedItem()).getKey());
+        penempatan.setLokasi(lokasi);
+        
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement ps;
+            if (status==SEDANG_TAMBAH) {
+                String executeQuery = "INSERT INTO tbl_penempatan (id_aset,id_lokasi) value (?,?)";
+                ps = con.prepareStatement(executeQuery);
+                ps.setInt(1, penempatan.getAset().getId_aset());
+                ps.setInt(2, penempatan.getLokasi().getId_lokasi());
+            }else{
+                String executeQuery = "update tbl_penempatan set id_aset=?,"
+                                    + "id_lokasi=? WHERE id_penempatan=?";
+                ps = con.prepareStatement(executeQuery);
+                ps.setInt(1, penempatan.getAset().getId_aset());
+                ps.setInt(2, penempatan.getLokasi().getId_lokasi());
+                ps.setString(3, eIDPenempatan.getText());
+            }
+            ps.executeUpdate();
+            
+        } catch (SQLException ex) {
+            System.err.println(ex);
+        }
         dispose();
     }//GEN-LAST:event_btnSimpanMouseClicked
 
