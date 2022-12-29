@@ -5,17 +5,17 @@
  */
 package GUI;
 
-import model.Aset;
 import db.Koneksi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import model.Lokasi;
 
 /**
  *
  * @author Ashada
  */
-public class AsetTambahData extends javax.swing.JFrame {
+public class LokasiTambahData extends javax.swing.JFrame {
     
     int status;
     
@@ -24,20 +24,20 @@ public class AsetTambahData extends javax.swing.JFrame {
     /**
      * Creates new form AsetTambahData
      */
-    public AsetTambahData() {
+    public LokasiTambahData() {
         initComponents();
         status = SEDANG_TAMBAH;
         setLocationRelativeTo(null);
-        eNamaAset.requestFocus();
+        eNamaLokasi.requestFocus();
         
     }
-    public AsetTambahData(Aset aset){
+    public LokasiTambahData(Lokasi lokasi){
         initComponents();
         status = SEDANG_UBAH;
         setLocationRelativeTo(null);
-        eIDAset.setText(String.valueOf(aset.getId_aset()));
-        eNamaAset.setText(aset.getNama_aset());
-        eIDAset.requestFocus();
+        eIDLokasi.setText(String.valueOf(lokasi.getId_lokasi()));
+        eNamaLokasi.setText(lokasi.getNama_lokasi());
+        eIDLokasi.requestFocus();
     }
 
     /**
@@ -51,8 +51,8 @@ public class AsetTambahData extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        eIDAset = new javax.swing.JTextField();
-        eNamaAset = new javax.swing.JTextField();
+        eIDLokasi = new javax.swing.JTextField();
+        eNamaLokasi = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -61,23 +61,22 @@ public class AsetTambahData extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Data Aset");
-        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel1.setText("ID Aset");
 
-        eIDAset.setEditable(false);
-        eIDAset.setBackground(new java.awt.Color(255, 255, 255));
-        eIDAset.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        eIDAset.setText("ID Dibuat Otomatis");
-        eIDAset.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
-        eIDAset.setDisabledTextColor(new java.awt.Color(204, 204, 204));
+        eIDLokasi.setEditable(false);
+        eIDLokasi.setBackground(new java.awt.Color(255, 255, 255));
+        eIDLokasi.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        eIDLokasi.setText("ID Dibuat Otomatis");
+        eIDLokasi.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
+        eIDLokasi.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
-        eNamaAset.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
-        eNamaAset.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
-        eNamaAset.setDisabledTextColor(new java.awt.Color(204, 204, 204));
+        eNamaLokasi.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        eNamaLokasi.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
+        eNamaLokasi.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
         jLabel2.setText("Nama");
@@ -153,11 +152,11 @@ public class AsetTambahData extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(eIDAset, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(eIDLokasi, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(eNamaAset, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(eNamaLokasi, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(36, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -165,11 +164,11 @@ public class AsetTambahData extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(47, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eIDAset, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eIDLokasi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(eNamaAset, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(eNamaLokasi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(39, 39, 39)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -205,14 +204,14 @@ public class AsetTambahData extends javax.swing.JFrame {
             Connection con = koneksi.getConnection();
             PreparedStatement ps;
             if (status==SEDANG_TAMBAH) {
-                String executeQuery = "INSERT INTO tbl_aset (nama_aset) value (?)";
+                String executeQuery = "INSERT INTO tbl_lokasi (nama_lokasi) value (?)";
                 ps = con.prepareStatement(executeQuery);
-                ps.setString(1, eNamaAset.getText());
+                ps.setString(1, eNamaLokasi.getText());
             }else{
-                String executeQuery = "update tbl_aset set nama_aset=? WHERE id_aset=?";
+                String executeQuery = "update tbl_lokasi set nama_lokasi=? WHERE id_lokasi=?";
                 ps = con.prepareStatement(executeQuery);
-                ps.setString(1, eNamaAset.getText());
-                ps.setString(2, eIDAset.getText());
+                ps.setString(1, eNamaLokasi.getText());
+                ps.setString(2, eIDLokasi.getText());
             }
             ps.executeUpdate();
             
@@ -239,27 +238,28 @@ public class AsetTambahData extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AsetTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LokasiTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AsetTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LokasiTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AsetTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LokasiTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AsetTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(LokasiTambahData.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AsetTambahData().setVisible(true);
+                new LokasiTambahData().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField eIDAset;
-    private javax.swing.JTextField eNamaAset;
+    private javax.swing.JTextField eIDLokasi;
+    private javax.swing.JTextField eNamaLokasi;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
