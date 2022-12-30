@@ -23,6 +23,8 @@ import model.Aset;
 import model.Lokasi;
 import model.Model_Card;
 import javax.swing.ImageIcon;
+import model.Aset_Keluar;
+import model.Aset_Masuk;
 import model.Penempatan;
 
 /**
@@ -34,17 +36,51 @@ public class Aplikasi extends javax.swing.JFrame {
     Aset aset;
     Lokasi lokasi;
     Penempatan penempatan;
+    Aset_Masuk aset_masuk;
+    Aset_Keluar aset_keluar;
 
     /**
      * Creates new form home
      */
+    
     public Aplikasi() {
         initComponents();
-        
-        card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/stock.png")), "Aset","4", "Total Jumlah Aset"));
-        card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/profit.png")), "Aset Masuk", "15", "Total Jumlah Aset Masuk"));
-        card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/flag.png")), "Aset Keluar", "30", "Total Jumlah Aset Keluar"));
-        
+       try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS asetcount FROM tbl_aset");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int countaset = rs.getInt("asetcount");
+            card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/stock.png")), "Aset", String.valueOf(countaset), "Total Jumlah Aset"));
+            }
+        } catch (SQLException ex) {
+        }
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS countmasuk FROM tbl_masuk");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int countmasuk = rs.getInt("countmasuk");
+            card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/profit.png")), "Aset Masuk", String.valueOf(countmasuk), "Total Jumlah Aset Masuk"));
+            }
+        } catch (SQLException ex) {
+        }
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS countkeluar FROM tbl_penempatan");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int countkeluar = rs.getInt("countkeluar");
+            card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/flag.png")), "Aset Keluar", String.valueOf(countkeluar), "Total Jumlah Aset Keluar"));
+            }
+        } catch (SQLException ex) {
+        }
         setLocationRelativeTo(null);
         
         subAsetMasuk.setVisible(false);
@@ -54,16 +90,6 @@ public class Aplikasi extends javax.swing.JFrame {
         subDataLokasi.setVisible(false);
         subLaporanMasuk.setVisible(false);
         subLaporanKeluar.setVisible(false);
-        
-        tDM.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        tDM.getTableHeader().setOpaque(false);
-        tDM.getTableHeader().setBackground(new Color(45,129,255));
-        tDM.getTableHeader().setForeground(new Color(255, 255, 255));
-        
-        tDK.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        tDK.getTableHeader().setOpaque(false);
-        tDK.getTableHeader().setBackground(new Color(232,56,95));
-        tDK.getTableHeader().setForeground(new Color(255, 255, 255));
         
         tAset.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tAset.getTableHeader().setOpaque(false);
@@ -77,9 +103,33 @@ public class Aplikasi extends javax.swing.JFrame {
         
         tPenempatan.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tPenempatan.getTableHeader().setOpaque(false);
-        tPenempatan.getTableHeader().setBackground(new Color(45,129,255));
+        tPenempatan.getTableHeader().setBackground(new Color(255,204,45));
         tPenempatan.getTableHeader().setForeground(new Color(255, 255, 255));
         
+        tDM.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tDM.getTableHeader().setOpaque(false);
+        tDM.getTableHeader().setBackground(new Color(45,129,255));
+        tDM.getTableHeader().setForeground(new Color(255, 255, 255));
+        
+        tDK.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tDK.getTableHeader().setOpaque(false);
+        tDK.getTableHeader().setBackground(new Color(232,56,95));
+        tDK.getTableHeader().setForeground(new Color(255, 255, 255));
+        
+    }
+    public void AsetCount(){
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS asetcount FROM tbl_aset");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int count = rs.getInt("asetcount");
+            
+            }
+        } catch (SQLException ex) {
+        }
     }
             /* Tampilkan data ke tabel aset */
     public ArrayList<Aset> getAsetList(String keyword){
@@ -224,6 +274,61 @@ public class Aplikasi extends javax.swing.JFrame {
     model.setRowCount(0);
     selectPenempatan (keyword);
     }
+                /* Tampilkan data ke tabel Aset Masuk */
+    public ArrayList<Aset_Masuk> getAset_MasukList(String keyword){
+        ArrayList<Aset_Masuk> aset_masukList = new ArrayList<Aset_Masuk>();
+        Koneksi koneksi = new Koneksi();
+        Connection connection = koneksi.getConnection();
+        
+        String query = "SELECT tbl_masuk.*, tbl_aset.* FROM tbl_masuk "
+                        + "INNER JOIN tbl_aset ON tbl_masuk.id_aset = tbl_aset.id_aset";
+        String order = " ORDER BY tbl_masuk.id_masuk ";
+        if(!keyword.equals(""))
+            query = query + "WHERE tbl_masuk.id_masuk = ? OR nama_aset like ?";
+        query = query + order;
+        PreparedStatement ps;
+        ResultSet rs;
+        
+        try {
+            ps = connection.prepareStatement(query);
+            if (!keyword.equals("")) {
+                ps.setString(1, jTextField2.getText());
+                ps.setString(2, "%"+jTextField2.getText()+"%");
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                aset_masuk = new Aset_Masuk(
+                        rs.getInt("id_masuk"),
+                        rs.getString("tanggal_masuk"),
+                        rs.getInt("id_aset"),
+                        rs.getString("tbl_aset.nama_aset")
+                        );
+                aset_masukList.add(aset_masuk);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Koneksi Database Aset_Masuk Gagal"+ex);
+        }
+        return aset_masukList;
+    }
+    public void selectAset_Masuk(String keyword){
+        ArrayList<Aset_Masuk> list = getAset_MasukList(keyword);
+        DefaultTableModel model = (DefaultTableModel)tDM.getModel();
+        Object[] row = new Object[4];
+        
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getId_masuk();
+            row[1] = list.get(i).getTanggal_masuk();
+            row[2] = list.get(i).getId_aset();
+            row[3] = list.get(i).getAset().getNama_aset();
+            model.addRow(row);
+        }
+    }
+    public final void resetTableDM (String keyword){
+    DefaultTableModel model = (DefaultTableModel)tDM.getModel();
+    model.setRowCount(0);
+    selectAset_Masuk(keyword);
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -245,10 +350,10 @@ public class Aplikasi extends javax.swing.JFrame {
         lokasiLabel = new javax.swing.JLabel();
         navbarTransaksi = new javax.swing.JPanel();
         transaksiLabel = new javax.swing.JLabel();
-        subDataPenempatan = new javax.swing.JPanel();
-        penempatanLabel = new javax.swing.JLabel();
         subAsetMasuk = new javax.swing.JPanel();
         masukLabel = new javax.swing.JLabel();
+        subDataPenempatan = new javax.swing.JPanel();
+        penempatanLabel = new javax.swing.JLabel();
         subAsetKeluar = new javax.swing.JPanel();
         keluarLabel = new javax.swing.JLabel();
         navbarLaporan = new javax.swing.JPanel();
@@ -299,6 +404,18 @@ public class Aplikasi extends javax.swing.JFrame {
         btnCariLokasi = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
         tLokasi = new javax.swing.JTable();
+        mainDataMasuk = new javax.swing.JPanel();
+        dmPanelHeader = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        btnTambahDM = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        btnEditDM = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        btnHapusDM = new javax.swing.JPanel();
+        jLabel16 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tDM = new javax.swing.JTable();
         mainDataPenempatan = new javax.swing.JPanel();
         dmPanelHeader6 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -314,18 +431,6 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel30 = new javax.swing.JLabel();
         eCariPenempatan = new javax.swing.JTextField();
         btnCariPenempatan = new javax.swing.JLabel();
-        mainDataMasuk = new javax.swing.JPanel();
-        dmPanelHeader = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        btnTambahDM = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        btnEditDM = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        btnHapusDM = new javax.swing.JPanel();
-        jLabel16 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tDM = new javax.swing.JTable();
         mainDataKeluar = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -420,7 +525,7 @@ public class Aplikasi extends javax.swing.JFrame {
         });
 
         asetLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        asetLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_in.png"))); // NOI18N
+        asetLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_aset.png"))); // NOI18N
         asetLabel.setText(" Data Aset");
 
         javax.swing.GroupLayout subDataAsetLayout = new javax.swing.GroupLayout(subDataAset);
@@ -446,7 +551,7 @@ public class Aplikasi extends javax.swing.JFrame {
         });
 
         lokasiLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        lokasiLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_in.png"))); // NOI18N
+        lokasiLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/lokasi.png"))); // NOI18N
         lokasiLabel.setText(" Data Lokasi");
 
         javax.swing.GroupLayout subDataLokasiLayout = new javax.swing.GroupLayout(subDataLokasi);
@@ -474,7 +579,7 @@ public class Aplikasi extends javax.swing.JFrame {
         });
 
         transaksiLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        transaksiLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data.png"))); // NOI18N
+        transaksiLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/transaksi.png"))); // NOI18N
         transaksiLabel.setText("Transaksi");
 
         javax.swing.GroupLayout navbarTransaksiLayout = new javax.swing.GroupLayout(navbarTransaksi);
@@ -491,32 +596,6 @@ public class Aplikasi extends javax.swing.JFrame {
         );
 
         menuPanel.add(navbarTransaksi);
-
-        subDataPenempatan.setBackground(new java.awt.Color(255, 255, 255));
-        subDataPenempatan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                subDataPenempatanMouseClicked(evt);
-            }
-        });
-
-        penempatanLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
-        penempatanLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_in.png"))); // NOI18N
-        penempatanLabel.setText("Penempatan");
-
-        javax.swing.GroupLayout subDataPenempatanLayout = new javax.swing.GroupLayout(subDataPenempatan);
-        subDataPenempatan.setLayout(subDataPenempatanLayout);
-        subDataPenempatanLayout.setHorizontalGroup(
-            subDataPenempatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subDataPenempatanLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(penempatanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        subDataPenempatanLayout.setVerticalGroup(
-            subDataPenempatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(penempatanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-        );
-
-        menuPanel.add(subDataPenempatan);
 
         subAsetMasuk.setBackground(new java.awt.Color(255, 255, 255));
         subAsetMasuk.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -543,6 +622,32 @@ public class Aplikasi extends javax.swing.JFrame {
         );
 
         menuPanel.add(subAsetMasuk);
+
+        subDataPenempatan.setBackground(new java.awt.Color(255, 255, 255));
+        subDataPenempatan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                subDataPenempatanMouseClicked(evt);
+            }
+        });
+
+        penempatanLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        penempatanLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/penempatan.png"))); // NOI18N
+        penempatanLabel.setText("Penempatan");
+
+        javax.swing.GroupLayout subDataPenempatanLayout = new javax.swing.GroupLayout(subDataPenempatan);
+        subDataPenempatan.setLayout(subDataPenempatanLayout);
+        subDataPenempatanLayout.setHorizontalGroup(
+            subDataPenempatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, subDataPenempatanLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(penempatanLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        subDataPenempatanLayout.setVerticalGroup(
+            subDataPenempatanLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(penempatanLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        );
+
+        menuPanel.add(subDataPenempatan);
 
         subAsetKeluar.setBackground(new java.awt.Color(255, 255, 255));
         subAsetKeluar.setPreferredSize(new java.awt.Dimension(183, 30));
@@ -579,7 +684,7 @@ public class Aplikasi extends javax.swing.JFrame {
         });
 
         lapLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lapLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/add.png"))); // NOI18N
+        lapLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/laporan.png"))); // NOI18N
         lapLabel.setText("Laporan");
 
         javax.swing.GroupLayout navbarLaporanLayout = new javax.swing.GroupLayout(navbarLaporan);
@@ -720,6 +825,11 @@ public class Aplikasi extends javax.swing.JFrame {
         mainPanel.setLayout(new java.awt.CardLayout());
 
         mainDashboard.setBackground(new java.awt.Color(255, 255, 255));
+        mainDashboard.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                mainDashboardComponentShown(evt);
+            }
+        });
 
         dmPanelHeader4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -746,6 +856,11 @@ public class Aplikasi extends javax.swing.JFrame {
 
         card1.setColor1(new java.awt.Color(142, 142, 250));
         card1.setColor2(new java.awt.Color(123, 123, 245));
+        card1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                card1MouseClicked(evt);
+            }
+        });
         panel.add(card1);
 
         card2.setColor1(new java.awt.Color(186, 123, 247));
@@ -763,10 +878,10 @@ public class Aplikasi extends javax.swing.JFrame {
             .addGroup(mainDashboardLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+                    .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(mainDashboardLayout.createSequentialGroup()
                         .addComponent(dmPanelHeader4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 494, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         mainDashboardLayout.setVerticalGroup(
@@ -1224,6 +1339,179 @@ public class Aplikasi extends javax.swing.JFrame {
 
         mainPanel.add(mainDataLokasi, "dataLokasi");
 
+        mainDataMasuk.setBackground(new java.awt.Color(255, 255, 255));
+
+        dmPanelHeader.setBackground(new java.awt.Color(255, 255, 255));
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("Data Aset Masuk");
+
+        javax.swing.GroupLayout dmPanelHeaderLayout = new javax.swing.GroupLayout(dmPanelHeader);
+        dmPanelHeader.setLayout(dmPanelHeaderLayout);
+        dmPanelHeaderLayout.setHorizontalGroup(
+            dmPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dmPanelHeaderLayout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        dmPanelHeaderLayout.setVerticalGroup(
+            dmPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dmPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        btnTambahDM.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahDM.setAlignmentY(0.0F);
+        btnTambahDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnTambahDM.setPreferredSize(new java.awt.Dimension(132, 35));
+        btnTambahDM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTambahDMMouseClicked(evt);
+            }
+        });
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tambah_data.png"))); // NOI18N
+        jLabel2.setText("Tambah");
+        jLabel2.setAlignmentY(0.0F);
+
+        javax.swing.GroupLayout btnTambahDMLayout = new javax.swing.GroupLayout(btnTambahDM);
+        btnTambahDM.setLayout(btnTambahDMLayout);
+        btnTambahDMLayout.setHorizontalGroup(
+            btnTambahDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+        btnTambahDMLayout.setVerticalGroup(
+            btnTambahDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        btnEditDM.setBackground(new java.awt.Color(255, 204, 45));
+        btnEditDM.setAlignmentY(0.0F);
+        btnEditDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnEditDM.setPreferredSize(new java.awt.Dimension(132, 35));
+
+        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit_data.png"))); // NOI18N
+        jLabel4.setText("Edit");
+        jLabel4.setAlignmentY(0.0F);
+
+        javax.swing.GroupLayout btnEditDMLayout = new javax.swing.GroupLayout(btnEditDM);
+        btnEditDM.setLayout(btnEditDMLayout);
+        btnEditDMLayout.setHorizontalGroup(
+            btnEditDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+        btnEditDMLayout.setVerticalGroup(
+            btnEditDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        btnHapusDM.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
+        jLabel16.setText("Hapus");
+
+        javax.swing.GroupLayout btnHapusDMLayout = new javax.swing.GroupLayout(btnHapusDM);
+        btnHapusDM.setLayout(btnHapusDMLayout);
+        btnHapusDMLayout.setHorizontalGroup(
+            btnHapusDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+        btnHapusDMLayout.setVerticalGroup(
+            btnHapusDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+        );
+
+        jTextField2.setText("Search");
+        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(127, 178, 255)));
+
+        tDM.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
+        tDM.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Tanggal Masuk", "ID Aset", "Nama Aset"
+            }
+        ));
+        tDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tDM.setGridColor(new java.awt.Color(0, 0, 0));
+        tDM.setIntercellSpacing(new java.awt.Dimension(10, 2));
+        tDM.setRowHeight(25);
+        tDM.setSelectionBackground(new java.awt.Color(127, 178, 255));
+        tDM.setShowHorizontalLines(false);
+        tDM.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tDM);
+        if (tDM.getColumnModel().getColumnCount() > 0) {
+            tDM.getColumnModel().getColumn(0).setMaxWidth(40);
+            tDM.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tDM.getColumnModel().getColumn(1).setMaxWidth(150);
+            tDM.getColumnModel().getColumn(2).setMaxWidth(80);
+        }
+
+        javax.swing.GroupLayout mainDataMasukLayout = new javax.swing.GroupLayout(mainDataMasuk);
+        mainDataMasuk.setLayout(mainDataMasukLayout);
+        mainDataMasukLayout.setHorizontalGroup(
+            mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainDataMasukLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dmPanelHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(mainDataMasukLayout.createSequentialGroup()
+                        .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
+                            .addGroup(mainDataMasukLayout.createSequentialGroup()
+                                .addComponent(btnTambahDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnEditDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnHapusDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
+        );
+        mainDataMasukLayout.setVerticalGroup(
+            mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainDataMasukLayout.createSequentialGroup()
+                .addComponent(dmPanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(btnHapusDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnTambahDM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnEditDM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        mainPanel.add(mainDataMasuk, "dataMasuk");
+
         mainDataPenempatan.setBackground(new java.awt.Color(255, 255, 255));
 
         dmPanelHeader6.setBackground(new java.awt.Color(255, 255, 255));
@@ -1270,8 +1558,11 @@ public class Aplikasi extends javax.swing.JFrame {
         tPenempatan.setShowHorizontalLines(false);
         jScrollPane8.setViewportView(tPenempatan);
         if (tPenempatan.getColumnModel().getColumnCount() > 0) {
+            tPenempatan.getColumnModel().getColumn(0).setPreferredWidth(150);
+            tPenempatan.getColumnModel().getColumn(0).setMaxWidth(150);
+            tPenempatan.getColumnModel().getColumn(1).setMaxWidth(80);
             tPenempatan.getColumnModel().getColumn(2).setResizable(false);
-            tPenempatan.getColumnModel().getColumn(3).setResizable(false);
+            tPenempatan.getColumnModel().getColumn(3).setMaxWidth(80);
             tPenempatan.getColumnModel().getColumn(4).setResizable(false);
         }
 
@@ -1438,166 +1729,6 @@ public class Aplikasi extends javax.swing.JFrame {
         );
 
         mainPanel.add(mainDataPenempatan, "dataPenempatan");
-
-        mainDataMasuk.setBackground(new java.awt.Color(255, 255, 255));
-
-        dmPanelHeader.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Data Aset Masuk");
-
-        javax.swing.GroupLayout dmPanelHeaderLayout = new javax.swing.GroupLayout(dmPanelHeader);
-        dmPanelHeader.setLayout(dmPanelHeaderLayout);
-        dmPanelHeaderLayout.setHorizontalGroup(
-            dmPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dmPanelHeaderLayout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        dmPanelHeaderLayout.setVerticalGroup(
-            dmPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dmPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        btnTambahDM.setBackground(new java.awt.Color(45, 129, 255));
-        btnTambahDM.setAlignmentY(0.0F);
-        btnTambahDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnTambahDM.setPreferredSize(new java.awt.Dimension(132, 35));
-        btnTambahDM.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnTambahDMMouseClicked(evt);
-            }
-        });
-
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tambah_data.png"))); // NOI18N
-        jLabel2.setText("Tambah");
-        jLabel2.setAlignmentY(0.0F);
-
-        javax.swing.GroupLayout btnTambahDMLayout = new javax.swing.GroupLayout(btnTambahDM);
-        btnTambahDM.setLayout(btnTambahDMLayout);
-        btnTambahDMLayout.setHorizontalGroup(
-            btnTambahDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-        );
-        btnTambahDMLayout.setVerticalGroup(
-            btnTambahDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        btnEditDM.setBackground(new java.awt.Color(255, 204, 45));
-        btnEditDM.setAlignmentY(0.0F);
-        btnEditDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEditDM.setPreferredSize(new java.awt.Dimension(132, 35));
-
-        jLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel4.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit_data.png"))); // NOI18N
-        jLabel4.setText("Edit");
-        jLabel4.setAlignmentY(0.0F);
-
-        javax.swing.GroupLayout btnEditDMLayout = new javax.swing.GroupLayout(btnEditDM);
-        btnEditDM.setLayout(btnEditDMLayout);
-        btnEditDMLayout.setHorizontalGroup(
-            btnEditDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-        );
-        btnEditDMLayout.setVerticalGroup(
-            btnEditDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        btnHapusDM.setBackground(new java.awt.Color(232, 56, 95));
-        btnHapusDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
-        jLabel16.setText("Hapus");
-
-        javax.swing.GroupLayout btnHapusDMLayout = new javax.swing.GroupLayout(btnHapusDM);
-        btnHapusDM.setLayout(btnHapusDMLayout);
-        btnHapusDMLayout.setHorizontalGroup(
-            btnHapusDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-        );
-        btnHapusDMLayout.setVerticalGroup(
-            btnHapusDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-        );
-
-        jTextField2.setText("Search");
-        jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(127, 178, 255)));
-
-        tDM.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        tDM.setForeground(new java.awt.Color(255, 255, 255));
-        tDM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tDM.setGridColor(new java.awt.Color(0, 0, 0));
-        tDM.setRowHeight(25);
-        tDM.setSelectionBackground(new java.awt.Color(127, 178, 255));
-        tDM.setShowHorizontalLines(false);
-        tDM.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tDM);
-
-        javax.swing.GroupLayout mainDataMasukLayout = new javax.swing.GroupLayout(mainDataMasuk);
-        mainDataMasuk.setLayout(mainDataMasukLayout);
-        mainDataMasukLayout.setHorizontalGroup(
-            mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainDataMasukLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(dmPanelHeader, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(mainDataMasukLayout.createSequentialGroup()
-                        .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
-                            .addGroup(mainDataMasukLayout.createSequentialGroup()
-                                .addComponent(btnTambahDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnEditDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnHapusDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())))
-        );
-        mainDataMasukLayout.setVerticalGroup(
-            mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainDataMasukLayout.createSequentialGroup()
-                .addComponent(dmPanelHeader, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(btnHapusDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnTambahDM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEditDM, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        mainPanel.add(mainDataMasuk, "dataMasuk");
 
         mainDataKeluar.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1850,6 +1981,7 @@ public class Aplikasi extends javax.swing.JFrame {
 
     private void navbarComing1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarComing1MouseClicked
         // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_navbarComing1MouseClicked
 
     private void navbarLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarLaporanMouseClicked
@@ -1874,6 +2006,7 @@ public class Aplikasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "dataMasuk");
+        resetTableDM("");
     }//GEN-LAST:event_subAsetMasukMouseClicked
 
     private void subDataPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subDataPenempatanMouseClicked
@@ -2026,6 +2159,7 @@ public class Aplikasi extends javax.swing.JFrame {
         resetTable("");
         resetTableLokasi("");
         resetTablePenempatan("");
+        resetTableDM("");
     }//GEN-LAST:event_formWindowActivated
 
     private void btnEditAsetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditAsetMouseClicked
@@ -2119,6 +2253,55 @@ public class Aplikasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         resetTablePenempatan(eCariPenempatan.getText());
     }//GEN-LAST:event_eCariPenempatanKeyReleased
+
+    private void mainDashboardComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_mainDashboardComponentShown
+        // TODO add your handling code here:
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS asetcount FROM tbl_aset");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int countaset = rs.getInt("asetcount");
+            card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/stock.png")), "Aset", String.valueOf(countaset), "Total Jumlah Aset"));
+            }
+        } catch (SQLException ex) {
+        }
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS countmasuk FROM tbl_masuk");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int countmasuk = rs.getInt("countmasuk");
+            card2.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/profit.png")), "Aset Masuk", String.valueOf(countmasuk), "Total Jumlah Aset Masuk"));
+            }
+        } catch (SQLException ex) {
+        }
+        try {
+            Koneksi koneksi = new Koneksi();
+            Connection con = koneksi.getConnection();
+            PreparedStatement pst;
+            pst = con.prepareStatement("SELECT COUNT(*) AS countkeluar FROM tbl_penempatan");
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+            int countkeluar = rs.getInt("countkeluar");
+            card3.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/flag.png")), "Aset Keluar", String.valueOf(countkeluar), "Total Jumlah Aset Keluar"));
+            }
+        } catch (SQLException ex) {
+        }
+    }//GEN-LAST:event_mainDashboardComponentShown
+
+    private void card1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card1MouseClicked
+        // TODO add your handling code here:
+        subDataAset.setVisible(true);
+        subDataLokasi.setVisible(true);
+        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
+        c1.show(mainPanel, "dataAset");
+        resetTable("");
+    }//GEN-LAST:event_card1MouseClicked
 
     /**
      * @param args the command line arguments
