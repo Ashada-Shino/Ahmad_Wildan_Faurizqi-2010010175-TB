@@ -1074,7 +1074,8 @@ public class Aplikasi extends javax.swing.JFrame {
         tAset.getTableHeader().setReorderingAllowed(false);
         jScrollPane3.setViewportView(tAset);
         if (tAset.getColumnModel().getColumnCount() > 0) {
-            tAset.getColumnModel().getColumn(0).setResizable(false);
+            tAset.getColumnModel().getColumn(0).setPreferredWidth(200);
+            tAset.getColumnModel().getColumn(0).setMaxWidth(200);
             tAset.getColumnModel().getColumn(1).setResizable(false);
         }
 
@@ -1296,7 +1297,8 @@ public class Aplikasi extends javax.swing.JFrame {
         tLokasi.getTableHeader().setReorderingAllowed(false);
         jScrollPane7.setViewportView(tLokasi);
         if (tLokasi.getColumnModel().getColumnCount() > 0) {
-            tLokasi.getColumnModel().getColumn(0).setResizable(false);
+            tLokasi.getColumnModel().getColumn(0).setPreferredWidth(200);
+            tLokasi.getColumnModel().getColumn(0).setMaxWidth(200);
             tLokasi.getColumnModel().getColumn(1).setResizable(false);
         }
 
@@ -1833,13 +1835,13 @@ public class Aplikasi extends javax.swing.JFrame {
         tDK.setForeground(new java.awt.Color(255, 255, 255));
         tDK.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Tanggal Masuk", "Tanggal Keluar", "ID Aset", "Nama Aset"
             }
         ));
         tDK.setGridColor(new java.awt.Color(0, 0, 0));
@@ -1850,6 +1852,15 @@ public class Aplikasi extends javax.swing.JFrame {
         tDK.getTableHeader().setReorderingAllowed(false);
         tDK.setVerifyInputWhenFocusTarget(false);
         jScrollPane2.setViewportView(tDK);
+        if (tDK.getColumnModel().getColumnCount() > 0) {
+            tDK.getColumnModel().getColumn(0).setMaxWidth(40);
+            tDK.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tDK.getColumnModel().getColumn(1).setMaxWidth(150);
+            tDK.getColumnModel().getColumn(2).setPreferredWidth(150);
+            tDK.getColumnModel().getColumn(2).setMaxWidth(150);
+            tDK.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tDK.getColumnModel().getColumn(3).setMaxWidth(80);
+        }
 
         javax.swing.GroupLayout mainDataKeluarLayout = new javax.swing.GroupLayout(mainDataKeluar);
         mainDataKeluar.setLayout(mainDataKeluarLayout);
