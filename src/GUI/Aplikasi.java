@@ -92,30 +92,36 @@ public class Aplikasi extends javax.swing.JFrame {
         subLaporanMasuk.setVisible(false);
         subLaporanKeluar.setVisible(false);
         
+        tDashboard.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tDashboard.getTableHeader().setOpaque(false);
+        tDashboard.getTableHeader().setBackground(new Color(102,153,255));
+        tDashboard.getTableHeader().setForeground(new Color(255, 255, 255));
+        
         tAset.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tAset.getTableHeader().setOpaque(false);
-        tAset.getTableHeader().setBackground(new Color(45,129,255));
+        tAset.getTableHeader().setBackground(new Color(102,153,255));
         tAset.getTableHeader().setForeground(new Color(255, 255, 255));
         
         tLokasi.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tLokasi.getTableHeader().setOpaque(false);
-        tLokasi.getTableHeader().setBackground(new Color(45,129,255));
+        tLokasi.getTableHeader().setBackground(new Color(102,153,255));
         tLokasi.getTableHeader().setForeground(new Color(255, 255, 255));
         
         tPenempatan.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tPenempatan.getTableHeader().setOpaque(false);
-        tPenempatan.getTableHeader().setBackground(new Color(255,204,45));
+        tPenempatan.getTableHeader().setBackground(new Color(242,212,47));
         tPenempatan.getTableHeader().setForeground(new Color(255, 255, 255));
         
         tDM.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tDM.getTableHeader().setOpaque(false);
-        tDM.getTableHeader().setBackground(new Color(45,129,255));
+        tDM.getTableHeader().setBackground(new Color(102,153,255));
         tDM.getTableHeader().setForeground(new Color(255, 255, 255));
         
         tDK.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tDK.getTableHeader().setOpaque(false);
-        tDK.getTableHeader().setBackground(new Color(232,56,95));
+        tDK.getTableHeader().setBackground(new Color(255,102,102));
         tDK.getTableHeader().setForeground(new Color(255, 255, 255));
+
         
     }
     public void AsetCount(){
@@ -369,12 +375,13 @@ public class Aplikasi extends javax.swing.JFrame {
         logout = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         mainDashboard = new javax.swing.JPanel();
-        dmPanelHeader4 = new javax.swing.JPanel();
-        jLabel13 = new javax.swing.JLabel();
         panel = new javax.swing.JLayeredPane();
         card1 = new GUI.Card();
         card2 = new GUI.Card();
         card3 = new GUI.Card();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tDashboard = new javax.swing.JTable();
+        jLabel16 = new javax.swing.JLabel();
         mainDataAset = new javax.swing.JPanel();
         dmPanelHeader3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -817,7 +824,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addGap(1, 1, 1)
                 .addComponent(user, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(navbarComing1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -833,27 +840,6 @@ public class Aplikasi extends javax.swing.JFrame {
                 mainDashboardComponentShown(evt);
             }
         });
-
-        dmPanelHeader4.setBackground(new java.awt.Color(255, 255, 255));
-
-        jLabel13.setFont(new java.awt.Font("MV Boli", 0, 24)); // NOI18N
-        jLabel13.setText("Dashboard");
-
-        javax.swing.GroupLayout dmPanelHeader4Layout = new javax.swing.GroupLayout(dmPanelHeader4);
-        dmPanelHeader4.setLayout(dmPanelHeader4Layout);
-        dmPanelHeader4Layout.setHorizontalGroup(
-            dmPanelHeader4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(dmPanelHeader4Layout.createSequentialGroup()
-                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        dmPanelHeader4Layout.setVerticalGroup(
-            dmPanelHeader4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dmPanelHeader4Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
 
         panel.setLayout(new java.awt.GridLayout(1, 0, 10, 0));
 
@@ -874,6 +860,42 @@ public class Aplikasi extends javax.swing.JFrame {
         card3.setColor2(new java.awt.Color(211, 184, 61));
         panel.add(card3);
 
+        tDashboard.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
+        tDashboard.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tDashboard.setShowHorizontalLines(false);
+        tDashboard.setShowVerticalLines(false);
+        jScrollPane4.setViewportView(tDashboard);
+
+        jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(127, 127, 127));
+        jLabel16.setText("Data Aset");
+
         javax.swing.GroupLayout mainDashboardLayout = new javax.swing.GroupLayout(mainDashboard);
         mainDashboard.setLayout(mainDashboardLayout);
         mainDashboardLayout.setHorizontalGroup(
@@ -882,18 +904,20 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
-                    .addGroup(mainDashboardLayout.createSequentialGroup()
-                        .addComponent(dmPanelHeader4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane4)
+                    .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE))
                 .addContainerGap())
         );
         mainDashboardLayout.setVerticalGroup(
             mainDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainDashboardLayout.createSequentialGroup()
-                .addComponent(dmPanelHeader4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(384, Short.MAX_VALUE))
+                .addGap(50, 50, 50)
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         mainPanel.add(mainDashboard, "dashboard");
@@ -905,6 +929,7 @@ public class Aplikasi extends javax.swing.JFrame {
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel12.setText("Data Aset");
+        jLabel12.setToolTipText("");
 
         javax.swing.GroupLayout dmPanelHeader3Layout = new javax.swing.GroupLayout(dmPanelHeader3);
         dmPanelHeader3.setLayout(dmPanelHeader3Layout);
@@ -925,7 +950,7 @@ public class Aplikasi extends javax.swing.JFrame {
         actionAsetPanel.setBackground(new java.awt.Color(255, 255, 255));
         actionAsetPanel.setPreferredSize(new java.awt.Dimension(343, 200));
 
-        btnTambahAset.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahAset.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahAset.setAlignmentY(0.0F);
         btnTambahAset.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTambahAset.setPreferredSize(new java.awt.Dimension(132, 35));
@@ -954,7 +979,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnEditAset.setBackground(new java.awt.Color(255, 204, 45));
+        btnEditAset.setBackground(new java.awt.Color(255, 204, 51));
         btnEditAset.setAlignmentY(0.0F);
         btnEditAset.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEditAset.setPreferredSize(new java.awt.Dimension(132, 35));
@@ -983,7 +1008,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnHapusAset.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusAset.setBackground(new java.awt.Color(255, 102, 102));
         btnHapusAset.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnHapusAset.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1094,7 +1119,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(actionAsetPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainDataAsetLayout = new javax.swing.GroupLayout(mainDataAset);
@@ -1149,7 +1174,7 @@ public class Aplikasi extends javax.swing.JFrame {
         jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setPreferredSize(new java.awt.Dimension(343, 200));
 
-        btnTambahLokasi.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahLokasi.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahLokasi.setAlignmentY(0.0F);
         btnTambahLokasi.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTambahLokasi.setPreferredSize(new java.awt.Dimension(132, 35));
@@ -1207,7 +1232,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnHapusLokasi.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusLokasi.setBackground(new java.awt.Color(255, 102, 102));
         btnHapusLokasi.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnHapusLokasi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1317,7 +1342,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE))
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainDataLokasiLayout = new javax.swing.GroupLayout(mainDataLokasi);
@@ -1401,7 +1426,7 @@ public class Aplikasi extends javax.swing.JFrame {
             tDM.getColumnModel().getColumn(2).setMaxWidth(80);
         }
 
-        btnTambahDM.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahDM.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahDM.setAlignmentY(0.0F);
         btnTambahDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTambahDM.setPreferredSize(new java.awt.Dimension(132, 35));
@@ -1459,7 +1484,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnHapusDM.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusDM.setBackground(new java.awt.Color(255, 102, 102));
         btnHapusDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnHapusDM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1548,7 +1573,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1578,7 +1603,7 @@ public class Aplikasi extends javax.swing.JFrame {
         jPanel13.setBackground(new java.awt.Color(255, 255, 255));
         jPanel13.setPreferredSize(new java.awt.Dimension(343, 200));
 
-        btnTambahPenempatan.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahPenempatan.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahPenempatan.setAlignmentY(0.0F);
         btnTambahPenempatan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnTambahPenempatan.setPreferredSize(new java.awt.Dimension(132, 35));
@@ -1636,7 +1661,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnHapusPenempatan.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusPenempatan.setBackground(new java.awt.Color(255, 102, 102));
         btnHapusPenempatan.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnHapusPenempatan.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1742,7 +1767,7 @@ public class Aplikasi extends javax.swing.JFrame {
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 519, Short.MAX_VALUE)
+            .addComponent(jScrollPane8, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainDataPenempatanLayout = new javax.swing.GroupLayout(mainDataPenempatan);
@@ -1934,7 +1959,7 @@ public class Aplikasi extends javax.swing.JFrame {
                         .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnEditDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1952,7 +1977,7 @@ public class Aplikasi extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 635, Short.MAX_VALUE)
+            .addGap(0, 644, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainLapMasukLayout = new javax.swing.GroupLayout(mainLapMasuk);
@@ -1985,7 +2010,7 @@ public class Aplikasi extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 635, Short.MAX_VALUE)
+            .addGap(0, 644, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainLapKeluarLayout = new javax.swing.GroupLayout(mainLapKeluar);
@@ -2475,7 +2500,6 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel dataLabel;
     private javax.swing.JPanel dmPanelHeader;
     private javax.swing.JPanel dmPanelHeader3;
-    private javax.swing.JPanel dmPanelHeader4;
     private javax.swing.JPanel dmPanelHeader5;
     private javax.swing.JPanel dmPanelHeader6;
     private javax.swing.JTextField eCariAset;
@@ -2487,9 +2511,9 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -2516,6 +2540,7 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JTextField jTextField3;
@@ -2554,6 +2579,7 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JTable tAset;
     private javax.swing.JTable tDK;
     private javax.swing.JTable tDM;
+    private javax.swing.JTable tDashboard;
     private javax.swing.JTable tLokasi;
     private javax.swing.JTable tPenempatan;
     private javax.swing.JLabel transaksiLabel;

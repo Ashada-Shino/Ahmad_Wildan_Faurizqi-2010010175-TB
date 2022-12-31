@@ -160,6 +160,7 @@ public class AsetMasuk extends javax.swing.JFrame {
         eID.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
         eID.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
+        txDate.setBackground(new java.awt.Color(255, 255, 255));
         txDate.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
         txDate.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(0, 153, 255)));
         txDate.setDisabledTextColor(new java.awt.Color(204, 204, 204));

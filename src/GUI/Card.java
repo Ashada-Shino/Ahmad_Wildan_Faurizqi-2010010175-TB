@@ -31,8 +31,8 @@ public class Card extends javax.swing.JPanel {
     public Card() {
         initComponents();
         setOpaque(false);
-        color1 = Color.PINK;
-        color2 = Color.PINK;
+        color1 = Color.BLACK;
+        color2 = Color.WHITE;
     }
 
     public void setData(Model_Card data) {
