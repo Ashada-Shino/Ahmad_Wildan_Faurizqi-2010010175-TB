@@ -15,6 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -36,8 +37,8 @@ public class Aplikasi extends javax.swing.JFrame {
     Aset aset;
     Lokasi lokasi;
     Penempatan penempatan;
-    Aset_Masuk aset_masuk;
-    Aset_Keluar aset_keluar;
+    Aset_Masuk asetmasuk;
+    Aset_Keluar asetkeluar;
 
     /**
      * Creates new form home
@@ -280,8 +281,8 @@ public class Aplikasi extends javax.swing.JFrame {
         Koneksi koneksi = new Koneksi();
         Connection connection = koneksi.getConnection();
         
-        String query = "SELECT tbl_masuk.*, tbl_aset.* FROM tbl_masuk "
-                        + "INNER JOIN tbl_aset ON tbl_masuk.id_aset = tbl_aset.id_aset";
+        String query = "SELECT tbl_masuk.*, tbl_aset.* FROM (tbl_masuk "
+                        + "INNER JOIN tbl_aset ON tbl_masuk.id_aset = tbl_aset.id_aset)";
         String order = " ORDER BY tbl_masuk.id_masuk ";
         if(!keyword.equals(""))
             query = query + "WHERE tbl_masuk.id_masuk = ? OR nama_aset like ?";
@@ -297,13 +298,13 @@ public class Aplikasi extends javax.swing.JFrame {
             }
             rs = ps.executeQuery();
             while (rs.next()) {
-                aset_masuk = new Aset_Masuk(
+                asetmasuk = new Aset_Masuk(
                         rs.getInt("id_masuk"),
                         rs.getString("tanggal_masuk"),
                         rs.getInt("id_aset"),
                         rs.getString("tbl_aset.nama_aset")
                         );
-                aset_masukList.add(aset_masuk);
+                aset_masukList.add(asetmasuk);
             }
         } catch (SQLException ex) {
             System.err.println("Koneksi Database Aset_Masuk Gagal"+ex);
@@ -374,8 +375,6 @@ public class Aplikasi extends javax.swing.JFrame {
         card1 = new GUI.Card();
         card2 = new GUI.Card();
         card3 = new GUI.Card();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         mainDataAset = new javax.swing.JPanel();
         dmPanelHeader3 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
@@ -412,11 +411,11 @@ public class Aplikasi extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tDM = new javax.swing.JTable();
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        btnTambahPenempatan1 = new javax.swing.JPanel();
+        btnTambahDM = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        btnEditPenempatan1 = new javax.swing.JPanel();
+        btnEditDM = new javax.swing.JPanel();
         jLabel23 = new javax.swing.JLabel();
-        btnHapusPenempatan1 = new javax.swing.JPanel();
+        btnHapusDM = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
         eCariDM = new javax.swing.JTextField();
         btnCariDM = new javax.swing.JLabel();
@@ -875,19 +874,6 @@ public class Aplikasi extends javax.swing.JFrame {
         card3.setColor2(new java.awt.Color(211, 184, 61));
         panel.add(card3);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane4.setViewportView(jTable1);
-
         javax.swing.GroupLayout mainDashboardLayout = new javax.swing.GroupLayout(mainDashboard);
         mainDashboard.setLayout(mainDashboardLayout);
         mainDashboardLayout.setHorizontalGroup(
@@ -898,8 +884,7 @@ public class Aplikasi extends javax.swing.JFrame {
                     .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
                     .addGroup(mainDashboardLayout.createSequentialGroup()
                         .addComponent(dmPanelHeader4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane4))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         mainDashboardLayout.setVerticalGroup(
@@ -908,9 +893,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addComponent(dmPanelHeader4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 355, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(384, Short.MAX_VALUE))
         );
 
         mainPanel.add(mainDashboard, "dashboard");
@@ -1418,13 +1401,13 @@ public class Aplikasi extends javax.swing.JFrame {
             tDM.getColumnModel().getColumn(2).setMaxWidth(80);
         }
 
-        btnTambahPenempatan1.setBackground(new java.awt.Color(45, 129, 255));
-        btnTambahPenempatan1.setAlignmentY(0.0F);
-        btnTambahPenempatan1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnTambahPenempatan1.setPreferredSize(new java.awt.Dimension(132, 35));
-        btnTambahPenempatan1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnTambahDM.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahDM.setAlignmentY(0.0F);
+        btnTambahDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnTambahDM.setPreferredSize(new java.awt.Dimension(132, 35));
+        btnTambahDM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnTambahPenempatan1MouseClicked(evt);
+                btnTambahDMMouseClicked(evt);
             }
         });
 
@@ -1436,24 +1419,24 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel22.setText("Tambah");
         jLabel22.setAlignmentY(0.0F);
 
-        javax.swing.GroupLayout btnTambahPenempatan1Layout = new javax.swing.GroupLayout(btnTambahPenempatan1);
-        btnTambahPenempatan1.setLayout(btnTambahPenempatan1Layout);
-        btnTambahPenempatan1Layout.setHorizontalGroup(
-            btnTambahPenempatan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout btnTambahDMLayout = new javax.swing.GroupLayout(btnTambahDM);
+        btnTambahDM.setLayout(btnTambahDMLayout);
+        btnTambahDMLayout.setHorizontalGroup(
+            btnTambahDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
-        btnTambahPenempatan1Layout.setVerticalGroup(
-            btnTambahPenempatan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        btnTambahDMLayout.setVerticalGroup(
+            btnTambahDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnEditPenempatan1.setBackground(new java.awt.Color(255, 204, 45));
-        btnEditPenempatan1.setAlignmentY(0.0F);
-        btnEditPenempatan1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnEditPenempatan1.setPreferredSize(new java.awt.Dimension(132, 35));
-        btnEditPenempatan1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnEditDM.setBackground(new java.awt.Color(255, 204, 45));
+        btnEditDM.setAlignmentY(0.0F);
+        btnEditDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnEditDM.setPreferredSize(new java.awt.Dimension(132, 35));
+        btnEditDM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditPenempatan1MouseClicked(evt);
+                btnEditDMMouseClicked(evt);
             }
         });
 
@@ -1465,22 +1448,22 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel23.setText("Edit");
         jLabel23.setAlignmentY(0.0F);
 
-        javax.swing.GroupLayout btnEditPenempatan1Layout = new javax.swing.GroupLayout(btnEditPenempatan1);
-        btnEditPenempatan1.setLayout(btnEditPenempatan1Layout);
-        btnEditPenempatan1Layout.setHorizontalGroup(
-            btnEditPenempatan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout btnEditDMLayout = new javax.swing.GroupLayout(btnEditDM);
+        btnEditDM.setLayout(btnEditDMLayout);
+        btnEditDMLayout.setHorizontalGroup(
+            btnEditDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
-        btnEditPenempatan1Layout.setVerticalGroup(
-            btnEditPenempatan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        btnEditDMLayout.setVerticalGroup(
+            btnEditDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnHapusPenempatan1.setBackground(new java.awt.Color(232, 56, 95));
-        btnHapusPenempatan1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnHapusPenempatan1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnHapusDM.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnHapusDM.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnHapusPenempatan1MouseClicked(evt);
+                btnHapusDMMouseClicked(evt);
             }
         });
 
@@ -1491,14 +1474,14 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
         jLabel31.setText("Hapus");
 
-        javax.swing.GroupLayout btnHapusPenempatan1Layout = new javax.swing.GroupLayout(btnHapusPenempatan1);
-        btnHapusPenempatan1.setLayout(btnHapusPenempatan1Layout);
-        btnHapusPenempatan1Layout.setHorizontalGroup(
-            btnHapusPenempatan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout btnHapusDMLayout = new javax.swing.GroupLayout(btnHapusDM);
+        btnHapusDM.setLayout(btnHapusDMLayout);
+        btnHapusDMLayout.setHorizontalGroup(
+            btnHapusDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel31, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
-        btnHapusPenempatan1Layout.setVerticalGroup(
-            btnHapusPenempatan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        btnHapusDMLayout.setVerticalGroup(
+            btnHapusDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -1513,9 +1496,9 @@ public class Aplikasi extends javax.swing.JFrame {
         btnCariDM.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnCariDM.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
-        jLayeredPane1.setLayer(btnTambahPenempatan1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(btnEditPenempatan1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(btnHapusPenempatan1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnTambahDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnEditDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnHapusDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(eCariDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(btnCariDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -1524,11 +1507,11 @@ public class Aplikasi extends javax.swing.JFrame {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addComponent(btnTambahPenempatan1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnTambahDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnEditPenempatan1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnEditDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnHapusPenempatan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHapusDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(eCariDM, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -1537,9 +1520,9 @@ public class Aplikasi extends javax.swing.JFrame {
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btnTambahPenempatan1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-            .addComponent(btnEditPenempatan1, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-            .addComponent(btnHapusPenempatan1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnTambahDM, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(btnEditDM, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(btnHapusDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(eCariDM)
             .addComponent(btnCariDM, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
@@ -2322,11 +2305,11 @@ public class Aplikasi extends javax.swing.JFrame {
             Koneksi koneksi = new Koneksi();
             Connection con = koneksi.getConnection();
             PreparedStatement pst;
-            pst = con.prepareStatement("SELECT COUNT(*) AS asetcount FROM tbl_aset");
+            pst = con.prepareStatement("SELECT COUNT(*) AS asetcount FROM tbl_penempatan");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
             int countaset = rs.getInt("asetcount");
-            card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/stock.png")), "Aset", String.valueOf(countaset), "Total Jumlah Aset"));
+            card1.setData(new Model_Card(new ImageIcon(getClass().getResource("/img/stock.png")), "Aset", String.valueOf(countaset), "Total Aset Yang Ditempatkan"));
             }
         } catch (SQLException ex) {
         }
@@ -2366,7 +2349,7 @@ public class Aplikasi extends javax.swing.JFrame {
         resetTable("");
     }//GEN-LAST:event_card1MouseClicked
 
-    private void btnHapusPenempatan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusPenempatan1MouseClicked
+    private void btnHapusDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusDMMouseClicked
         // TODO add your handling code here:
         int i = tDM.getSelectedRow();
             int pilihan = JOptionPane.showConfirmDialog(
@@ -2395,17 +2378,31 @@ public class Aplikasi extends javax.swing.JFrame {
                 }
             }
             resetTableDM("");
-    }//GEN-LAST:event_btnHapusPenempatan1MouseClicked
+    }//GEN-LAST:event_btnHapusDMMouseClicked
 
-    private void btnEditPenempatan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditPenempatan1MouseClicked
+    private void btnEditDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditDMMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnEditPenempatan1MouseClicked
+        int i = tDM.getSelectedRow();
+        if(i>=0){
+            TableModel model = tDM.getModel();
+            asetmasuk = new Aset_Masuk();
+            asetmasuk.setId_masuk(Integer.parseInt(model.getValueAt(i, 0).toString()));
+            asetmasuk.setTanggal_masuk(model.getValueAt(i, 1).toString());
+            asetmasuk.setAset(new Aset
+                        (Integer.parseInt(model.getValueAt(i, 2).toString()),
+                         model.getValueAt(i, 3).toString()));
+            AsetMasuk asetMasuk = new AsetMasuk(asetmasuk);
+            asetMasuk.setVisible(true);
+        }else{
+        JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
+        }
+    }//GEN-LAST:event_btnEditDMMouseClicked
 
-    private void btnTambahPenempatan1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahPenempatan1MouseClicked
+    private void btnTambahDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahDMMouseClicked
         // TODO add your handling code here:
         AsetMasuk asetMasuk = new AsetMasuk();
         asetMasuk.setVisible(true);
-    }//GEN-LAST:event_btnTambahPenempatan1MouseClicked
+    }//GEN-LAST:event_btnTambahDMMouseClicked
 
     private void eCariDMKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCariDMKeyReleased
         // TODO add your handling code here:
@@ -2458,19 +2455,19 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel btnCariPenempatan;
     private javax.swing.JPanel btnEditAset;
     private javax.swing.JPanel btnEditDK;
+    private javax.swing.JPanel btnEditDM;
     private javax.swing.JPanel btnEditLokasi;
     private javax.swing.JPanel btnEditPenempatan;
-    private javax.swing.JPanel btnEditPenempatan1;
     private javax.swing.JPanel btnHapusAset;
     private javax.swing.JPanel btnHapusDK;
+    private javax.swing.JPanel btnHapusDM;
     private javax.swing.JPanel btnHapusLokasi;
     private javax.swing.JPanel btnHapusPenempatan;
-    private javax.swing.JPanel btnHapusPenempatan1;
     private javax.swing.JPanel btnTambahAset;
     private javax.swing.JPanel btnTambahDK;
+    private javax.swing.JPanel btnTambahDM;
     private javax.swing.JPanel btnTambahLokasi;
     private javax.swing.JPanel btnTambahPenempatan;
-    private javax.swing.JPanel btnTambahPenempatan1;
     private GUI.Card card1;
     private GUI.Card card2;
     private GUI.Card card3;
@@ -2519,10 +2516,8 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel keluarLabel;
     private javax.swing.JLabel lapKeluarLabel;
