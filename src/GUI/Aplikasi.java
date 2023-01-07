@@ -74,7 +74,7 @@ public class Aplikasi extends javax.swing.JFrame {
             Koneksi koneksi = new Koneksi();
             Connection con = koneksi.getConnection();
             PreparedStatement pst;
-            pst = con.prepareStatement("SELECT COUNT(*) AS countkeluar FROM tbl_penempatan");
+            pst = con.prepareStatement("SELECT COUNT(*) AS countkeluar FROM tbl_keluar");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
             int countkeluar = rs.getInt("countkeluar");
@@ -109,7 +109,7 @@ public class Aplikasi extends javax.swing.JFrame {
         
         tPenempatan.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
         tPenempatan.getTableHeader().setOpaque(false);
-        tPenempatan.getTableHeader().setBackground(new Color(242,212,47));
+        tPenempatan.getTableHeader().setBackground(new Color(255,204,45));
         tPenempatan.getTableHeader().setForeground(new Color(255, 255, 255));
         
         tDM.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -175,10 +175,27 @@ public class Aplikasi extends javax.swing.JFrame {
             model.addRow(row);
         }
     }
+    public void SelectAsetDashboard(String keyword){
+        ArrayList<Aset> list = getAsetList(keyword);
+        DefaultTableModel model = (DefaultTableModel)tDashboard.getModel();
+        Object[] row = new Object[2];
+        
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getId_aset();
+            row[1] = list.get(i).getNama_aset();
+
+            model.addRow(row);
+        }
+    }
     public final void resetTable (String keyword){
     DefaultTableModel model = (DefaultTableModel)tAset.getModel();
     model.setRowCount(0);
     selectAset (keyword);
+    }
+    public final void resetTableDashboard (String keyword){
+    DefaultTableModel model = (DefaultTableModel)tDashboard.getModel();
+    model.setRowCount(0);
+    SelectAsetDashboard(keyword);
     }
             /* Tampilkan data ke tabel lokasi */
     public ArrayList<Lokasi> getLokasiList(String keyword){
@@ -335,6 +352,60 @@ public class Aplikasi extends javax.swing.JFrame {
     model.setRowCount(0);
     selectAset_Masuk(keyword);
     }
+                    /* Tampilkan data ke tabel Aset Keluar */
+    public ArrayList<Aset_Keluar> getAset_KeluarList(String keyword){
+        ArrayList<Aset_Keluar> aset_keluarList = new ArrayList<Aset_Keluar>();
+        Koneksi koneksi = new Koneksi();
+        Connection connection = koneksi.getConnection();
+        
+        String query = "SELECT tbl_keluar.*, tbl_aset.* FROM (tbl_keluar "
+                        + "INNER JOIN tbl_aset ON tbl_keluar.id_aset = tbl_aset.id_aset)";
+        String order = " ORDER BY tbl_keluar.id_keluar ";
+        if(!keyword.equals(""))
+            query = query + "WHERE tbl_keluar.id_keluar = ? OR nama_aset like ?";
+        query = query + order;
+        PreparedStatement ps;
+        ResultSet rs;
+        
+        try {
+            ps = connection.prepareStatement(query);
+            if (!keyword.equals("")) {
+                ps.setString(1, eCariDK.getText());
+                ps.setString(2, "%"+eCariDK.getText()+"%");
+            }
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                asetkeluar = new Aset_Keluar(
+                        rs.getInt("id_keluar"),
+                        rs.getString("tanggal_keluar"),
+                        rs.getInt("id_aset"),
+                        rs.getString("tbl_aset.nama_aset")
+                        );
+                aset_keluarList.add(asetkeluar);
+            }
+        } catch (SQLException ex) {
+            System.err.println("Koneksi Database Aset_Keluar Gagal"+ex);
+        }
+        return aset_keluarList;
+    }
+    public void selectAset_Keluar(String keyword){
+        ArrayList<Aset_Keluar> list = getAset_KeluarList(keyword);
+        DefaultTableModel model = (DefaultTableModel)tDK.getModel();
+        Object[] row = new Object[4];
+        
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getId_keluar();
+            row[1] = list.get(i).getTanggal_keluar();
+            row[2] = list.get(i).getId_aset();
+            row[3] = list.get(i).getAset().getNama_aset();
+            model.addRow(row);
+        }
+    }
+    public final void resetTableDK (String keyword){
+    DefaultTableModel model = (DefaultTableModel)tDK.getModel();
+    model.setRowCount(0);
+    selectAset_Keluar(keyword);
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -415,8 +486,6 @@ public class Aplikasi extends javax.swing.JFrame {
         mainDataMasuk = new javax.swing.JPanel();
         dmPanelHeader = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tDM = new javax.swing.JTable();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         btnTambahDM = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
@@ -426,6 +495,8 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel31 = new javax.swing.JLabel();
         eCariDM = new javax.swing.JTextField();
         btnCariDM = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tDM = new javax.swing.JTable();
         mainDataPenempatan = new javax.swing.JPanel();
         dmPanelHeader6 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
@@ -444,17 +515,17 @@ public class Aplikasi extends javax.swing.JFrame {
         mainDataKeluar = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jLayeredPane2 = new javax.swing.JLayeredPane();
         btnTambahDK = new javax.swing.JPanel();
-        jLabel17 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
         btnEditDK = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
         btnHapusDK = new javax.swing.JPanel();
-        jLabel18 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        jLabel32 = new javax.swing.JLabel();
+        eCariDK = new javax.swing.JTextField();
+        btnCariDK = new javax.swing.JLabel();
+        jScrollPane5 = new javax.swing.JScrollPane();
         tDK = new javax.swing.JTable();
-        mainLapMasuk = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
         mainLapKeluar = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
 
@@ -721,7 +792,7 @@ public class Aplikasi extends javax.swing.JFrame {
 
         lapMasukLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         lapMasukLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_in.png"))); // NOI18N
-        lapMasukLabel.setText("Aset Masuk");
+        lapMasukLabel.setText("Laporan Aset Masuk");
 
         javax.swing.GroupLayout subLaporanMasukLayout = new javax.swing.GroupLayout(subLaporanMasuk);
         subLaporanMasuk.setLayout(subLaporanMasukLayout);
@@ -748,7 +819,7 @@ public class Aplikasi extends javax.swing.JFrame {
 
         lapKeluarLabel.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         lapKeluarLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/data_out.png"))); // NOI18N
-        lapKeluarLabel.setText(" Aset Keluar");
+        lapKeluarLabel.setText("Laporan Aset Keluar");
 
         javax.swing.GroupLayout subLaporanKeluarLayout = new javax.swing.GroupLayout(subLaporanKeluar);
         subLaporanKeluar.setLayout(subLaporanKeluarLayout);
@@ -854,43 +925,59 @@ public class Aplikasi extends javax.swing.JFrame {
 
         card2.setColor1(new java.awt.Color(186, 123, 247));
         card2.setColor2(new java.awt.Color(167, 94, 236));
+        card2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                card2MouseClicked(evt);
+            }
+        });
         panel.add(card2);
 
         card3.setColor1(new java.awt.Color(241, 208, 62));
         card3.setColor2(new java.awt.Color(211, 184, 61));
+        card3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                card3MouseClicked(evt);
+            }
+        });
         panel.add(card3);
 
         tDashboard.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
         tDashboard.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "Nama Aset"
             }
         ));
+        tDashboard.setIntercellSpacing(new java.awt.Dimension(10, 1));
+        tDashboard.setRowHeight(25);
+        tDashboard.setSelectionBackground(new java.awt.Color(127, 178, 255));
         tDashboard.setShowHorizontalLines(false);
         tDashboard.setShowVerticalLines(false);
         jScrollPane4.setViewportView(tDashboard);
+        if (tDashboard.getColumnModel().getColumnCount() > 0) {
+            tDashboard.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(127, 127, 127));
@@ -913,10 +1000,10 @@ public class Aplikasi extends javax.swing.JFrame {
             .addGroup(mainDashboardLayout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -1392,40 +1479,6 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tDM.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
-        tDM.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "ID", "Tanggal Masuk", "ID Aset", "Nama Aset"
-            }
-        ));
-        tDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        tDM.setGridColor(new java.awt.Color(0, 0, 0));
-        tDM.setIntercellSpacing(new java.awt.Dimension(10, 2));
-        tDM.setRowHeight(25);
-        tDM.setSelectionBackground(new java.awt.Color(127, 178, 255));
-        tDM.setShowHorizontalLines(false);
-        tDM.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tDM);
-        if (tDM.getColumnModel().getColumnCount() > 0) {
-            tDM.getColumnModel().getColumn(0).setMaxWidth(40);
-            tDM.getColumnModel().getColumn(1).setPreferredWidth(150);
-            tDM.getColumnModel().getColumn(1).setMaxWidth(150);
-            tDM.getColumnModel().getColumn(2).setMaxWidth(80);
-        }
-
         btnTambahDM.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahDM.setAlignmentY(0.0F);
         btnTambahDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1551,6 +1604,40 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(eCariDM)
             .addComponent(btnCariDM, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
         );
+
+        tDM.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
+        tDM.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "ID", "Tanggal Masuk", "ID Aset", "Nama Aset"
+            }
+        ));
+        tDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tDM.setGridColor(new java.awt.Color(0, 0, 0));
+        tDM.setIntercellSpacing(new java.awt.Dimension(10, 2));
+        tDM.setRowHeight(25);
+        tDM.setSelectionBackground(new java.awt.Color(127, 178, 255));
+        tDM.setShowHorizontalLines(false);
+        tDM.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tDM);
+        if (tDM.getColumnModel().getColumnCount() > 0) {
+            tDM.getColumnModel().getColumn(0).setMaxWidth(40);
+            tDM.getColumnModel().getColumn(1).setPreferredWidth(150);
+            tDM.getColumnModel().getColumn(1).setMaxWidth(150);
+            tDM.getColumnModel().getColumn(2).setMaxWidth(80);
+        }
 
         javax.swing.GroupLayout mainDataMasukLayout = new javax.swing.GroupLayout(mainDataMasuk);
         mainDataMasuk.setLayout(mainDataMasukLayout);
@@ -1801,7 +1888,7 @@ public class Aplikasi extends javax.swing.JFrame {
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Century Gothic", 0, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel3.setText("Data Aset Keluar");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -1809,9 +1896,8 @@ public class Aplikasi extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(621, Short.MAX_VALUE))
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1821,182 +1907,192 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        btnTambahDK.setBackground(new java.awt.Color(45, 129, 255));
+        btnTambahDK.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahDK.setAlignmentY(0.0F);
         btnTambahDK.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnTambahDK.setPreferredSize(new java.awt.Dimension(132, 35));
         btnTambahDK.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnTambahDKMouseClicked(evt);
             }
         });
 
-        jLabel17.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tambah_data.png"))); // NOI18N
-        jLabel17.setText("Tambah");
-        jLabel17.setAlignmentY(0.0F);
+        jLabel24.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel24.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/tambah_data.png"))); // NOI18N
+        jLabel24.setText("Tambah");
+        jLabel24.setAlignmentY(0.0F);
 
         javax.swing.GroupLayout btnTambahDKLayout = new javax.swing.GroupLayout(btnTambahDK);
         btnTambahDK.setLayout(btnTambahDKLayout);
         btnTambahDKLayout.setHorizontalGroup(
             btnTambahDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+            .addComponent(jLabel24, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
         btnTambahDKLayout.setVerticalGroup(
             btnTambahDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         btnEditDK.setBackground(new java.awt.Color(255, 204, 45));
         btnEditDK.setAlignmentY(0.0F);
         btnEditDK.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnEditDK.setPreferredSize(new java.awt.Dimension(132, 35));
+        btnEditDK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditDKMouseClicked(evt);
+            }
+        });
 
-        jLabel5.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit_data.png"))); // NOI18N
-        jLabel5.setText("Edit");
-        jLabel5.setAlignmentY(0.0F);
+        jLabel25.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel25.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel25.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/edit_data.png"))); // NOI18N
+        jLabel25.setText("Edit");
+        jLabel25.setAlignmentY(0.0F);
 
         javax.swing.GroupLayout btnEditDKLayout = new javax.swing.GroupLayout(btnEditDK);
         btnEditDK.setLayout(btnEditDKLayout);
         btnEditDKLayout.setHorizontalGroup(
             btnEditDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+            .addComponent(jLabel25, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
         btnEditDKLayout.setVerticalGroup(
             btnEditDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        btnHapusDK.setBackground(new java.awt.Color(232, 56, 95));
+        btnHapusDK.setBackground(new java.awt.Color(255, 102, 102));
         btnHapusDK.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnHapusDK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnHapusDKMouseClicked(evt);
+            }
+        });
 
-        jLabel18.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
-        jLabel18.setText("Hapus");
+        jLabel32.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel32.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
+        jLabel32.setText("Hapus");
 
         javax.swing.GroupLayout btnHapusDKLayout = new javax.swing.GroupLayout(btnHapusDK);
         btnHapusDK.setLayout(btnHapusDKLayout);
         btnHapusDKLayout.setHorizontalGroup(
             btnHapusDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+            .addComponent(jLabel32, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
         );
         btnHapusDKLayout.setVerticalGroup(
             btnHapusDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+            .addComponent(jLabel32, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTextField3.setText("Search");
+        eCariDK.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        eCariDK.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                eCariDKKeyReleased(evt);
+            }
+        });
 
-        tDK.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        tDK.setForeground(new java.awt.Color(255, 255, 255));
+        btnCariDK.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btnCariDK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
+        btnCariDK.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+
+        jLayeredPane2.setLayer(btnTambahDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(btnEditDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(btnHapusDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(eCariDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(btnCariDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
+        jLayeredPane2.setLayout(jLayeredPane2Layout);
+        jLayeredPane2Layout.setHorizontalGroup(
+            jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jLayeredPane2Layout.createSequentialGroup()
+                .addComponent(btnTambahDK, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnEditDK, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnHapusDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
+                .addComponent(eCariDK, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(btnCariDK, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jLayeredPane2Layout.setVerticalGroup(
+            jLayeredPane2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnTambahDK, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(btnEditDK, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(btnHapusDK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(eCariDK)
+            .addComponent(btnCariDK, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+        );
+
+        tDK.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
         tDK.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Tanggal Masuk", "Tanggal Keluar", "ID Aset", "Nama Aset"
+                "ID", "Tanggal Keluar", "ID Aset", "Nama_Aset"
             }
         ));
+        tDK.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tDK.setGridColor(new java.awt.Color(0, 0, 0));
-        tDK.setIntercellSpacing(new java.awt.Dimension(1, 10));
+        tDK.setIntercellSpacing(new java.awt.Dimension(10, 2));
         tDK.setRowHeight(25);
-        tDK.setSelectionBackground(new java.awt.Color(241, 140, 163));
+        tDK.setSelectionBackground(new java.awt.Color(127, 178, 255));
         tDK.setShowHorizontalLines(false);
         tDK.getTableHeader().setReorderingAllowed(false);
-        tDK.setVerifyInputWhenFocusTarget(false);
-        jScrollPane2.setViewportView(tDK);
+        jScrollPane5.setViewportView(tDK);
         if (tDK.getColumnModel().getColumnCount() > 0) {
             tDK.getColumnModel().getColumn(0).setMaxWidth(40);
             tDK.getColumnModel().getColumn(1).setPreferredWidth(150);
             tDK.getColumnModel().getColumn(1).setMaxWidth(150);
-            tDK.getColumnModel().getColumn(2).setPreferredWidth(150);
-            tDK.getColumnModel().getColumn(2).setMaxWidth(150);
-            tDK.getColumnModel().getColumn(3).setPreferredWidth(80);
-            tDK.getColumnModel().getColumn(3).setMaxWidth(80);
+            tDK.getColumnModel().getColumn(2).setMaxWidth(80);
         }
 
         javax.swing.GroupLayout mainDataKeluarLayout = new javax.swing.GroupLayout(mainDataKeluar);
         mainDataKeluar.setLayout(mainDataKeluarLayout);
         mainDataKeluarLayout.setHorizontalGroup(
             mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(mainDataKeluarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(mainDataKeluarLayout.createSequentialGroup()
-                        .addComponent(btnTambahDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEditDK, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnHapusDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainDataKeluarLayout.createSequentialGroup()
+                        .addGroup(mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLayeredPane2, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5))
+                        .addContainerGap())))
         );
         mainDataKeluarLayout.setVerticalGroup(
             mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainDataKeluarLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(mainDataKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnTambahDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnHapusDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnEditDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLayeredPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 528, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         mainPanel.add(mainDataKeluar, "dataKeluar");
-
-        mainLapMasuk.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel5.setBackground(new java.awt.Color(255, 255, 204));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 926, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 644, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout mainLapMasukLayout = new javax.swing.GroupLayout(mainLapMasuk);
-        mainLapMasuk.setLayout(mainLapMasukLayout);
-        mainLapMasukLayout.setHorizontalGroup(
-            mainLapMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainLapMasukLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        mainLapMasukLayout.setVerticalGroup(
-            mainLapMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainLapMasukLayout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        mainPanel.add(mainLapMasuk, "laporanMasuk");
 
         mainLapKeluar.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -2037,12 +2133,6 @@ public class Aplikasi extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTambahDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahDKMouseClicked
-        // TODO add your handling code here:
-        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
-        c1.show(mainPanel, "addForm");
-    }//GEN-LAST:event_btnTambahDKMouseClicked
-
     private void btnTambahAsetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahAsetMouseClicked
         // TODO add your handling code here:
         AsetTambahData asetTambahData = new AsetTambahData();
@@ -2070,10 +2160,19 @@ public class Aplikasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "dataKeluar");
+        jLabel3.setText("Data Aset Keluar");
+        btnTambahDK.setVisible(true);
+        btnEditDK.setVisible(true);
+        btnHapusDK.setVisible(true);
+        resetTableDK("");
     }//GEN-LAST:event_subAsetKeluarMouseClicked
 
     private void subAsetMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subAsetMasukMouseClicked
         // TODO add your handling code here:
+        jLabel1.setText("Data Aset Masuk");
+        btnTambahDM.setVisible(true);
+        btnEditDM.setVisible(true);
+        btnHapusDM.setVisible(true);
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "dataMasuk");
         resetTableDM("");
@@ -2130,18 +2229,29 @@ public class Aplikasi extends javax.swing.JFrame {
         // TODO add your handling code here:
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "dashboard");
+        resetTableDashboard("");
     }//GEN-LAST:event_subMouseClicked
 
     private void subLaporanMasukMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subLaporanMasukMouseClicked
         // TODO add your handling code here:
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
-        c1.show(mainPanel, "laporanMasuk");
+        jLabel1.setText("Laporan Aset Masuk");
+        btnTambahDM.setVisible(false);
+        btnEditDM.setVisible(false);
+        btnHapusDM.setVisible(false);
+        c1.show(mainPanel, "dataMasuk");
+        resetTableDM("");
     }//GEN-LAST:event_subLaporanMasukMouseClicked
 
     private void subLaporanKeluarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_subLaporanKeluarMouseClicked
         // TODO add your handling code here:
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
-        c1.show(mainPanel, "laporanKeluar");
+        c1.show(mainPanel, "dataKeluar");
+        jLabel3.setText("Laporan Aset Keluar");
+        btnTambahDK.setVisible(false);
+        btnEditDK.setVisible(false);
+        btnHapusDK.setVisible(false);
+        resetTableDK("");
     }//GEN-LAST:event_subLaporanKeluarMouseClicked
 
     private void eCariAsetKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCariAsetKeyReleased
@@ -2230,6 +2340,8 @@ public class Aplikasi extends javax.swing.JFrame {
         resetTableLokasi("");
         resetTablePenempatan("");
         resetTableDM("");
+        resetTableDK("");
+        resetTableDashboard("");
     }//GEN-LAST:event_formWindowActivated
 
     private void btnEditAsetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditAsetMouseClicked
@@ -2262,68 +2374,6 @@ public class Aplikasi extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEditLokasiMouseClicked
 
-    private void btnTambahPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahPenempatanMouseClicked
-        // TODO add your handling code here:
-        PenempatanTambahData penempatanTambahData = new PenempatanTambahData();
-        penempatanTambahData.setVisible(true);
-    }//GEN-LAST:event_btnTambahPenempatanMouseClicked
-
-    private void btnEditPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditPenempatanMouseClicked
-        // TODO add your handling code here:
-        int i = tPenempatan.getSelectedRow();
-        if(i>=0){
-            TableModel model = tPenempatan.getModel();
-            penempatan = new Penempatan();
-            penempatan.setId_penempatan(Integer.parseInt(model.getValueAt(i, 0).toString()));
-            penempatan.setAset(new Aset
-                        (Integer.parseInt(model.getValueAt(i, 1).toString()),
-                         model.getValueAt(i, 2).toString()));
-            penempatan.setLokasi(new Lokasi
-                        (Integer.parseInt(model.getValueAt(i, 3).toString()),
-                         model.getValueAt(i, 4).toString()));
-            PenempatanTambahData penempatanTambahData = new PenempatanTambahData(penempatan);
-            penempatanTambahData.setVisible(true);
-        }else{
-        JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
-        }
-    }//GEN-LAST:event_btnEditPenempatanMouseClicked
-
-    private void btnHapusPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusPenempatanMouseClicked
-        // TODO add your handling code here:
-            int i = tPenempatan.getSelectedRow();
-            int pilihan = JOptionPane.showConfirmDialog(
-                    null,
-                    "Yakin mau hapus ?",
-                    "Konfirmasi hapus",
-                    JOptionPane.YES_NO_OPTION);
-            if (pilihan==0) {
-                if (i>=0) {
-                    try {
-                        TableModel model = tPenempatan.getModel();
-                        Koneksi koneksi = new Koneksi();
-                        Connection con = koneksi.getConnection();
-                        String executeQuery = "DELETE FROM tbl_penempatan WHERE id_penempatan =?";
-                        PreparedStatement ps = con.prepareStatement(executeQuery);
-                        ps.setString(1, model.getValueAt(i, 0).toString());
-                        ps.executeUpdate();
-                    } catch (SQLException ex) {
-                        System.err.println("ex");
-                    }
-                }else{
-                    JOptionPane.showMessageDialog(
-                            null,
-                            "Pilih data yang ingin dihapus"
-                            );
-                }
-            }
-            resetTablePenempatan("");
-    }//GEN-LAST:event_btnHapusPenempatanMouseClicked
-
-    private void eCariPenempatanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCariPenempatanKeyReleased
-        // TODO add your handling code here:
-        resetTablePenempatan(eCariPenempatan.getText());
-    }//GEN-LAST:event_eCariPenempatanKeyReleased
-
     private void mainDashboardComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_mainDashboardComponentShown
         // TODO add your handling code here:
         try {
@@ -2354,7 +2404,7 @@ public class Aplikasi extends javax.swing.JFrame {
             Koneksi koneksi = new Koneksi();
             Connection con = koneksi.getConnection();
             PreparedStatement pst;
-            pst = con.prepareStatement("SELECT COUNT(*) AS countkeluar FROM tbl_penempatan");
+            pst = con.prepareStatement("SELECT COUNT(*) AS countkeluar FROM tbl_keluar");
             ResultSet rs = pst.executeQuery();
             while (rs.next()) {
             int countkeluar = rs.getInt("countkeluar");
@@ -2366,7 +2416,7 @@ public class Aplikasi extends javax.swing.JFrame {
 
     private void card1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card1MouseClicked
         // TODO add your handling code here:
-        subAsetKeluar.setVisible(true);
+        subAsetMasuk.setVisible(true);
         subDataPenempatan.setVisible(true);
         subAsetKeluar.setVisible(true);
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
@@ -2434,6 +2484,148 @@ public class Aplikasi extends javax.swing.JFrame {
         resetTableDM(eCariDM.getText());
     }//GEN-LAST:event_eCariDMKeyReleased
 
+    private void eCariPenempatanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCariPenempatanKeyReleased
+        // TODO add your handling code here:
+        resetTablePenempatan(eCariPenempatan.getText());
+    }//GEN-LAST:event_eCariPenempatanKeyReleased
+
+    private void btnHapusPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusPenempatanMouseClicked
+        // TODO add your handling code here:
+        int i = tPenempatan.getSelectedRow();
+        int pilihan = JOptionPane.showConfirmDialog(
+            null,
+            "Yakin mau hapus ?",
+            "Konfirmasi hapus",
+            JOptionPane.YES_NO_OPTION);
+        if (pilihan==0) {
+            if (i>=0) {
+                try {
+                    TableModel model = tPenempatan.getModel();
+                    Koneksi koneksi = new Koneksi();
+                    Connection con = koneksi.getConnection();
+                    String executeQuery = "DELETE FROM tbl_penempatan WHERE id_penempatan =?";
+                    PreparedStatement ps = con.prepareStatement(executeQuery);
+                    ps.setString(1, model.getValueAt(i, 0).toString());
+                    ps.executeUpdate();
+                } catch (SQLException ex) {
+                    System.err.println("ex");
+                }
+            }else{
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Pilih data yang ingin dihapus"
+                );
+            }
+        }
+        resetTablePenempatan("");
+    }//GEN-LAST:event_btnHapusPenempatanMouseClicked
+
+    private void btnEditPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditPenempatanMouseClicked
+        // TODO add your handling code here:
+        int i = tPenempatan.getSelectedRow();
+        if(i>=0){
+            TableModel model = tPenempatan.getModel();
+            penempatan = new Penempatan();
+            penempatan.setId_penempatan(Integer.parseInt(model.getValueAt(i, 0).toString()));
+            penempatan.setAset(new Aset
+                (Integer.parseInt(model.getValueAt(i, 1).toString()),
+                    model.getValueAt(i, 2).toString()));
+            penempatan.setLokasi(new Lokasi
+                (Integer.parseInt(model.getValueAt(i, 3).toString()),
+                    model.getValueAt(i, 4).toString()));
+            PenempatanTambahData penempatanTambahData = new PenempatanTambahData(penempatan);
+            penempatanTambahData.setVisible(true);
+        }else{
+            JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
+        }
+    }//GEN-LAST:event_btnEditPenempatanMouseClicked
+
+    private void btnTambahPenempatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahPenempatanMouseClicked
+        // TODO add your handling code here:
+        PenempatanTambahData penempatanTambahData = new PenempatanTambahData();
+        penempatanTambahData.setVisible(true);
+    }//GEN-LAST:event_btnTambahPenempatanMouseClicked
+
+    private void btnTambahDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTambahDKMouseClicked
+        // TODO add your handling code here:
+        AsetKeluar asetKeluar = new AsetKeluar();
+        asetKeluar.setVisible(true);
+    }//GEN-LAST:event_btnTambahDKMouseClicked
+
+    private void btnEditDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditDKMouseClicked
+        // TODO add your handling code here:
+        int i = tDK.getSelectedRow();
+        if(i>=0){
+            TableModel model = tDK.getModel();
+            asetkeluar = new Aset_Keluar();
+            asetkeluar.setId_keluar(Integer.parseInt(model.getValueAt(i, 0).toString()));
+            asetkeluar.setTanggal_keluar(model.getValueAt(i, 1).toString());
+            asetkeluar.setAset(new Aset
+                        (Integer.parseInt(model.getValueAt(i, 2).toString()),
+                         model.getValueAt(i, 3).toString()));
+            AsetKeluar asetKeluar = new AsetKeluar(asetkeluar);
+            asetKeluar.setVisible(true);
+        }else{
+        JOptionPane.showMessageDialog(null, "Pilih data yang ingin diubah");
+        }
+    }//GEN-LAST:event_btnEditDKMouseClicked
+
+    private void btnHapusDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnHapusDKMouseClicked
+        // TODO add your handling code here:
+        int i = tDK.getSelectedRow();
+        int pilihan = JOptionPane.showConfirmDialog(
+            null,
+            "Yakin mau hapus ?",
+            "Konfirmasi hapus",
+            JOptionPane.YES_NO_OPTION);
+        if (pilihan==0) {
+            if (i>=0) {
+                try {
+                    TableModel model = tDK.getModel();
+                    Koneksi koneksi = new Koneksi();
+                    Connection con = koneksi.getConnection();
+                    String executeQuery = "DELETE FROM tbl_keluar WHERE id_keluar =?";
+                    PreparedStatement ps = con.prepareStatement(executeQuery);
+                    ps.setString(1, model.getValueAt(i, 0).toString());
+                    ps.executeUpdate();
+                } catch (SQLException ex) {
+                    System.err.println("ex");
+                }
+            }else{
+                JOptionPane.showMessageDialog(
+                    null,
+                    "Pilih data yang ingin dihapus"
+                );
+            }
+        }
+        resetTableDK("");
+    }//GEN-LAST:event_btnHapusDKMouseClicked
+
+    private void eCariDKKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eCariDKKeyReleased
+        // TODO add your handling code here:
+        resetTableDK(eCariDK.getText());
+    }//GEN-LAST:event_eCariDKKeyReleased
+
+    private void card2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card2MouseClicked
+        // TODO add your handling code here:
+        subAsetMasuk.setVisible(true);
+        subDataPenempatan.setVisible(true);
+        subAsetKeluar.setVisible(true);
+        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
+        c1.show(mainPanel, "dataMasuk");
+        resetTableDM("");
+    }//GEN-LAST:event_card2MouseClicked
+
+    private void card3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_card3MouseClicked
+        // TODO add your handling code here:
+        subAsetMasuk.setVisible(true);
+        subDataPenempatan.setVisible(true);
+        subAsetKeluar.setVisible(true);
+        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
+        c1.show(mainPanel, "dataKeluar");
+        resetTableDK("");
+    }//GEN-LAST:event_card3MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2475,6 +2667,7 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel actionAsetPanel;
     private javax.swing.JLabel asetLabel;
     private javax.swing.JLabel btnCariAset;
+    private javax.swing.JLabel btnCariDK;
     private javax.swing.JLabel btnCariDM;
     private javax.swing.JLabel btnCariLokasi;
     private javax.swing.JLabel btnCariPenempatan;
@@ -2503,6 +2696,7 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel dmPanelHeader5;
     private javax.swing.JPanel dmPanelHeader6;
     private javax.swing.JTextField eCariAset;
+    private javax.swing.JTextField eCariDK;
     private javax.swing.JTextField eCariDM;
     private javax.swing.JTextField eCariLokasi;
     private javax.swing.JTextField eCariPenempatan;
@@ -2514,36 +2708,35 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
+    private javax.swing.JLayeredPane jLayeredPane2;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel keluarLabel;
     private javax.swing.JLabel lapKeluarLabel;
     private javax.swing.JLabel lapLabel;
@@ -2557,7 +2750,6 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel mainDataMasuk;
     private javax.swing.JPanel mainDataPenempatan;
     private javax.swing.JPanel mainLapKeluar;
-    private javax.swing.JPanel mainLapMasuk;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel masukLabel;
     private javax.swing.JPanel menuPanel;

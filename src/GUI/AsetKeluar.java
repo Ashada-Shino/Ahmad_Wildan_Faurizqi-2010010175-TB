@@ -20,7 +20,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import model.Aset;
-import model.Aset_Masuk;
+import model.Aset_Keluar;
 import model.KeyValue;
 import model.Lokasi;
 import model.Penempatan;
@@ -29,7 +29,7 @@ import model.Penempatan;
  *
  * @author Ashada
  */
-public class AsetMasuk extends javax.swing.JFrame {
+public class AsetKeluar extends javax.swing.JFrame {
     
     int status;
     Statement st;
@@ -45,7 +45,7 @@ public class AsetMasuk extends javax.swing.JFrame {
      */
     
     
-    public AsetMasuk() {
+    public AsetKeluar() {
         initComponents();
         status = SEDANG_TAMBAH;
         cbIDAset.setBackground(new Color(255,255,255));
@@ -62,11 +62,11 @@ public class AsetMasuk extends javax.swing.JFrame {
             }
         });
     }
-    public AsetMasuk (Aset_Masuk aset_masuk){
+    public AsetKeluar (Aset_Keluar aset_keluar){
         initComponents();
         status = SEDANG_UBAH;
-        eID.setText(String.valueOf(aset_masuk.getId_masuk()));
-        txDate.setText(String.valueOf(aset_masuk.getTanggal_masuk()));
+        eID.setText(String.valueOf(aset_keluar.getId_keluar()));
+        txDate.setText(String.valueOf(aset_keluar.getTanggal_keluar()));
         cbSetModelAset(qryAset, "id_aset", "nama_aset", cbIDAset);
         
         dateChooser.addEventDateChooser(new EventDateChooser() {
@@ -143,7 +143,6 @@ public class AsetMasuk extends javax.swing.JFrame {
         cbIDAset = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
 
-        dateChooser.setForeground(new java.awt.Color(0, 153, 255));
         dateChooser.setDateFormat("dd-MMMM-yyyy");
         dateChooser.setTextRefernce(txDate);
 
@@ -166,7 +165,7 @@ public class AsetMasuk extends javax.swing.JFrame {
         txDate.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel2.setText("Tanggal Masuk");
+        jLabel2.setText("Tanggal Keluar");
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -300,26 +299,26 @@ public class AsetMasuk extends javax.swing.JFrame {
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         // TODO add your handling code here:
-        Aset_Masuk asetmasuk = new Aset_Masuk();
+        Aset_Keluar asetkeluar = new Aset_Keluar();
         
         Aset aset = new Aset();
         aset.setId_aset(((KeyValue)cbIDAset.getSelectedItem()).getKey());
-        asetmasuk.setAset(aset);
+        asetkeluar.setAset(aset);
         
         try {
             Koneksi koneksi = new Koneksi();
             Connection con = koneksi.getConnection();
             PreparedStatement ps;
             if (status==SEDANG_TAMBAH) {
-                String executeQuery = "INSERT INTO tbl_masuk (id_aset,tanggal_masuk) value (?,?)";
+                String executeQuery = "INSERT INTO tbl_keluar (id_aset,tanggal_keluar) value (?,?)";
                 ps = con.prepareStatement(executeQuery);
-                ps.setInt(1, asetmasuk.getAset().getId_aset());
+                ps.setInt(1, asetkeluar.getAset().getId_aset());
                 ps.setString(2, txDate.getText());
             }else{
-                String executeQuery = "update tbl_masuk set id_aset=?,"
-                                    + "tanggal_masuk=? WHERE id_masuk=?";
+                String executeQuery = "update tbl_keluar set id_aset=?,"
+                                    + "tanggal_keluar=? WHERE id_keluar=?";
                 ps = con.prepareStatement(executeQuery);
-                ps.setInt(1, asetmasuk.getAset().getId_aset());
+                ps.setInt(1, asetkeluar.getAset().getId_aset());
                 ps.setString(2, txDate.getText());
                 ps.setString(3, eID.getText());
             }
@@ -357,20 +356,21 @@ public class AsetMasuk extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AsetMasuk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AsetKeluar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AsetMasuk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AsetKeluar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AsetMasuk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AsetKeluar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AsetMasuk.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(AsetKeluar.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AsetMasuk().setVisible(true);
+                new AsetKeluar().setVisible(true);
             }
         });
     }
