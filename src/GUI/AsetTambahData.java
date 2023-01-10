@@ -10,6 +10,7 @@ import db.Koneksi;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -80,7 +81,7 @@ public class AsetTambahData extends javax.swing.JFrame {
         eNamaAset.setDisabledTextColor(new java.awt.Color(204, 204, 204));
 
         jLabel2.setFont(new java.awt.Font("Century Gothic", 1, 12)); // NOI18N
-        jLabel2.setText("Nama");
+        jLabel2.setText("Nama Aset");
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 255));
         jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -200,7 +201,13 @@ public class AsetTambahData extends javax.swing.JFrame {
 
     private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
         // TODO add your handling code here:
-        try {
+        if (eNamaAset.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null,
+                    "Nama Aset Tidak Boleh Kosong...!",
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
+        }else{
+            try {
             Koneksi koneksi = new Koneksi();
             Connection con = koneksi.getConnection();
             PreparedStatement ps;
@@ -219,7 +226,9 @@ public class AsetTambahData extends javax.swing.JFrame {
         } catch (SQLException ex) {
             System.err.println(ex);
         }
-        dispose();
+            dispose();
+        }
+        
     }//GEN-LAST:event_jPanel2MouseClicked
 
     /**

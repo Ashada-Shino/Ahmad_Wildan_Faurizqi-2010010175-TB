@@ -442,7 +442,7 @@ public class Aplikasi extends javax.swing.JFrame {
         lapKeluarLabel = new javax.swing.JLabel();
         img = new javax.swing.JLabel();
         user = new javax.swing.JLabel();
-        navbarComing1 = new javax.swing.JPanel();
+        navbarLogout = new javax.swing.JPanel();
         logout = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         mainDashboard = new javax.swing.JPanel();
@@ -526,8 +526,6 @@ public class Aplikasi extends javax.swing.JFrame {
         btnCariDK = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tDK = new javax.swing.JTable();
-        mainLapKeluar = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Aplikasi Inventaris Aset");
@@ -843,10 +841,10 @@ public class Aplikasi extends javax.swing.JFrame {
         user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         user.setText("Administrator");
 
-        navbarComing1.setBackground(new java.awt.Color(255, 255, 255));
-        navbarComing1.addMouseListener(new java.awt.event.MouseAdapter() {
+        navbarLogout.setBackground(new java.awt.Color(255, 255, 255));
+        navbarLogout.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                navbarComing1MouseClicked(evt);
+                navbarLogoutMouseClicked(evt);
             }
         });
 
@@ -855,18 +853,18 @@ public class Aplikasi extends javax.swing.JFrame {
         logout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
         logout.setText("Logout");
 
-        javax.swing.GroupLayout navbarComing1Layout = new javax.swing.GroupLayout(navbarComing1);
-        navbarComing1.setLayout(navbarComing1Layout);
-        navbarComing1Layout.setHorizontalGroup(
-            navbarComing1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navbarComing1Layout.createSequentialGroup()
+        javax.swing.GroupLayout navbarLogoutLayout = new javax.swing.GroupLayout(navbarLogout);
+        navbarLogout.setLayout(navbarLogoutLayout);
+        navbarLogoutLayout.setHorizontalGroup(
+            navbarLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navbarLogoutLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        navbarComing1Layout.setVerticalGroup(
-            navbarComing1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarComing1Layout.createSequentialGroup()
+        navbarLogoutLayout.setVerticalGroup(
+            navbarLogoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, navbarLogoutLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(logout, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
@@ -885,7 +883,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addGroup(navbarPanelLayout.createSequentialGroup()
                 .addComponent(menuPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(navbarComing1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(navbarLogout, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         navbarPanelLayout.setVerticalGroup(
             navbarPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -897,7 +895,7 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(menuPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 433, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(navbarComing1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(navbarLogout, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -968,7 +966,15 @@ public class Aplikasi extends javax.swing.JFrame {
             new String [] {
                 "ID", "Nama Aset"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tDashboard.setIntercellSpacing(new java.awt.Dimension(10, 1));
         tDashboard.setRowHeight(25);
         tDashboard.setSelectionBackground(new java.awt.Color(127, 178, 255));
@@ -1623,7 +1629,15 @@ public class Aplikasi extends javax.swing.JFrame {
             new String [] {
                 "ID", "Tanggal Masuk", "ID Aset", "Nama Aset"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tDM.setGridColor(new java.awt.Color(0, 0, 0));
         tDM.setIntercellSpacing(new java.awt.Dimension(10, 2));
@@ -2051,7 +2065,15 @@ public class Aplikasi extends javax.swing.JFrame {
             new String [] {
                 "ID", "Tanggal Keluar", "ID Aset", "Nama_Aset"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tDK.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tDK.setGridColor(new java.awt.Color(0, 0, 0));
         tDK.setIntercellSpacing(new java.awt.Dimension(10, 2));
@@ -2094,39 +2116,6 @@ public class Aplikasi extends javax.swing.JFrame {
 
         mainPanel.add(mainDataKeluar, "dataKeluar");
 
-        mainLapKeluar.setBackground(new java.awt.Color(255, 255, 255));
-
-        jPanel7.setBackground(new java.awt.Color(255, 204, 204));
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 926, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 644, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout mainLapKeluarLayout = new javax.swing.GroupLayout(mainLapKeluar);
-        mainLapKeluar.setLayout(mainLapKeluarLayout);
-        mainLapKeluarLayout.setHorizontalGroup(
-            mainLapKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainLapKeluarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        mainLapKeluarLayout.setVerticalGroup(
-            mainLapKeluarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainLapKeluarLayout.createSequentialGroup()
-                .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        mainPanel.add(mainLapKeluar, "laporanKeluar");
-
         getContentPane().add(mainPanel);
 
         pack();
@@ -2139,10 +2128,10 @@ public class Aplikasi extends javax.swing.JFrame {
         asetTambahData.setVisible(true);
     }//GEN-LAST:event_btnTambahAsetMouseClicked
 
-    private void navbarComing1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarComing1MouseClicked
+    private void navbarLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarLogoutMouseClicked
         // TODO add your handling code here:
         dispose();
-    }//GEN-LAST:event_navbarComing1MouseClicked
+    }//GEN-LAST:event_navbarLogoutMouseClicked
 
     private void navbarLaporanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarLaporanMouseClicked
         // TODO add your handling code here:
@@ -2728,7 +2717,6 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
@@ -2749,13 +2737,12 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel mainDataLokasi;
     private javax.swing.JPanel mainDataMasuk;
     private javax.swing.JPanel mainDataPenempatan;
-    private javax.swing.JPanel mainLapKeluar;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel masukLabel;
     private javax.swing.JPanel menuPanel;
-    private javax.swing.JPanel navbarComing1;
     private javax.swing.JPanel navbarData;
     private javax.swing.JPanel navbarLaporan;
+    private javax.swing.JPanel navbarLogout;
     private javax.swing.JPanel navbarPanel;
     private javax.swing.JPanel navbarTransaksi;
     private javax.swing.JLayeredPane panel;
