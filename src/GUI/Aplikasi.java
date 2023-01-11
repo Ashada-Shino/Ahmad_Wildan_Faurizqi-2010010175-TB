@@ -27,6 +27,10 @@ import javax.swing.ImageIcon;
 import model.Aset_Keluar;
 import model.Aset_Masuk;
 import model.Penempatan;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -1883,7 +1887,7 @@ public class Aplikasi extends javax.swing.JFrame {
         });
         tPenempatan.setIntercellSpacing(new java.awt.Dimension(10, 2));
         tPenempatan.setRowHeight(25);
-        tPenempatan.setSelectionBackground(new java.awt.Color(127, 178, 255));
+        tPenempatan.setSelectionBackground(new java.awt.Color(255, 239, 127));
         tPenempatan.setShowHorizontalLines(false);
         jScrollPane8.setViewportView(tPenempatan);
         if (tPenempatan.getColumnModel().getColumnCount() > 0) {
@@ -2142,7 +2146,7 @@ public class Aplikasi extends javax.swing.JFrame {
         tDK.setGridColor(new java.awt.Color(0, 0, 0));
         tDK.setIntercellSpacing(new java.awt.Dimension(10, 2));
         tDK.setRowHeight(25);
-        tDK.setSelectionBackground(new java.awt.Color(127, 178, 255));
+        tDK.setSelectionBackground(new java.awt.Color(255, 127, 127));
         tDK.setShowHorizontalLines(false);
         tDK.getTableHeader().setReorderingAllowed(false);
         jScrollPane5.setViewportView(tDK);
@@ -2687,18 +2691,24 @@ public class Aplikasi extends javax.swing.JFrame {
 
     private void btnCetakDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakDMMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null,
-                    "Fitur Dalam Tahap Pengembangan",
-                    "",
-                    JOptionPane.PLAIN_MESSAGE);
+        Koneksi koneksi = new Koneksi();
+        try {
+            JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("reportDM.jasper"),null, koneksi.getConnection());
+            JasperViewer.viewReport(jp, false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
     }//GEN-LAST:event_btnCetakDMMouseClicked
 
     private void btnCetakDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakDKMouseClicked
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null,
-                    "Fitur Dalam Tahap Pengembangan",
-                    "",
-                    JOptionPane.PLAIN_MESSAGE);
+        Koneksi koneksi = new Koneksi();
+        try {
+            JasperPrint jp = JasperFillManager.fillReport(getClass().getResourceAsStream("reportDK.jasper"),null, koneksi.getConnection());
+            JasperViewer.viewReport(jp, false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
     }//GEN-LAST:event_btnCetakDKMouseClicked
 
     /**
@@ -2756,8 +2766,6 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel btnHapusAset;
     private javax.swing.JPanel btnHapusDK;
     private javax.swing.JPanel btnHapusDM;
-    private javax.swing.JPanel btnHapusDM1;
-    private javax.swing.JPanel btnHapusDM2;
     private javax.swing.JPanel btnHapusLokasi;
     private javax.swing.JPanel btnHapusPenempatan;
     private javax.swing.JPanel btnTambahAset;
@@ -2799,8 +2807,6 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
-    private javax.swing.JLabel jLabel33;
-    private javax.swing.JLabel jLabel34;
     private javax.swing.JLabel jLabel35;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel6;

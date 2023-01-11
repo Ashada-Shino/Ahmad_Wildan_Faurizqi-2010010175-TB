@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bafd8d31-f984-4b24-8f5c-96d22d240749">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     tbl_masuk.`id_masuk` AS tbl_masuk_id_masuk,
+     tbl_masuk.`tanggal_masuk` AS tbl_masuk_tanggal_masuk,
+     tbl_masuk.`id_aset` AS tbl_masuk_id_aset,
+     tbl_aset.`id_aset` AS tbl_aset_id_aset,
+     tbl_aset.`nama_aset` AS tbl_aset_nama_aset
+FROM
+     `tbl_aset` tbl_aset INNER JOIN `tbl_masuk` tbl_masuk ON tbl_aset.`id_aset` = tbl_masuk.`id_aset`]]>
+	</queryString>
+	<field name="tbl_masuk_id_masuk" class="java.lang.Integer"/>
+	<field name="tbl_masuk_tanggal_masuk" class="java.lang.String"/>
+	<field name="tbl_masuk_id_aset" class="java.lang.Integer"/>
+	<field name="tbl_aset_nama_aset" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="70" splitType="Stretch">
+			<image>
+				<reportElement x="275" y="0" width="300" height="64" uuid="99162ff8-5d9d-4bd4-af73-046b65598c67"/>
+				<imageExpression><![CDATA["D:\\UNISKA\\Semester 5\\PBO 2\\Project\\TB Inventaris Aset\\TB\\src\\img\\leaf_banner_violet.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="d8e55c8c-3849-43e2-8cd9-8d1f4cbc6247"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Laporan]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="SubTitle" x="63" y="46" width="200" height="22" uuid="746258c1-07e1-4a78-9648-721356a02896"/>
+				<textElement textAlignment="Left"/>
+				<text><![CDATA[Data Aset Masuk]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="47" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="43" width="555" height="1" uuid="27f88fac-d308-4f15-b617-a143c40396db"/>
+				<graphicElement>
+					<pen lineWidth="2.0" lineColor="#000000"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="43" y="19" width="195" height="24" forecolor="#000000" uuid="e44bb689-9560-48a6-9bf3-146087c94d11"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tanggal Masuk]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="238" y="19" width="70" height="24" forecolor="#000000" uuid="86a8c050-7496-44e1-bd38-388e4939ba49"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[ID Aset]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="308" y="19" width="247" height="25" forecolor="#000000" uuid="4e9266a0-8677-412d-89cd-b5d9ad26c92f"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Nama Aset]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="19" width="43" height="24" forecolor="#000000" uuid="4c8dbd21-c069-41fa-989e-d4a00ef95d86"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<text><![CDATA[ID]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="26" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="22" width="555" height="1" uuid="8f4f495d-7347-498b-a88a-b463404423f4"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement style="Detail" x="0" y="0" width="43" height="20" uuid="908e2ce6-a902-4c93-aa4b-646d167b37de"/>
+				<textElement verticalAlignment="Middle">
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tbl_masuk_id_masuk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="43" y="0" width="195" height="20" uuid="854973bd-7f8b-48df-8df9-d4b41387f7d5"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tbl_masuk_tanggal_masuk}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="238" y="0" width="70" height="20" uuid="12496a2a-c6be-4600-bf18-e1e6c54292a4"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tbl_masuk_id_aset}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Detail" x="308" y="0" width="247" height="20" uuid="9d432af9-7ce3-4f41-b5f0-1fdc6456cb39"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tbl_aset_nama_aset}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="57baf5fc-eb4c-41c4-b478-52675a60b66e"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="7137b063-dee7-4c8e-b252-1b3f7b308a43"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="17484f20-3413-47fa-aa66-15c7837c9afd"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="24d28cba-20ca-4bf6-8a6f-e196ddd81fab"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
