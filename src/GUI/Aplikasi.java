@@ -2130,6 +2130,8 @@ public class Aplikasi extends javax.swing.JFrame {
 
     private void navbarLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navbarLogoutMouseClicked
         // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
         dispose();
     }//GEN-LAST:event_navbarLogoutMouseClicked
 
