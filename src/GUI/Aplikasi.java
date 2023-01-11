@@ -1887,6 +1887,7 @@ public class Aplikasi extends javax.swing.JFrame {
         tPenempatan.setIntercellSpacing(new java.awt.Dimension(10, 2));
         tPenempatan.setRowHeight(25);
         tPenempatan.setSelectionBackground(new java.awt.Color(255, 239, 127));
+        tPenempatan.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tPenempatan.setShowHorizontalLines(false);
         jScrollPane8.setViewportView(tPenempatan);
         if (tPenempatan.getColumnModel().getColumnCount() > 0) {
