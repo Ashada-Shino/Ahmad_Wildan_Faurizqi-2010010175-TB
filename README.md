@@ -1,5 +1,5 @@
 # Ahmad_Wildan_Faurizqi-2010010175-TB
-### Tampilan Login dan dashboard Aplikasi
+### Tampilan Login
 <p align="center">
     <img src="https://user-images.githubusercontent.com/90718856/211755451-7df1b8a0-4118-4835-b404-3e7ebce39c9d.png"/>
 </p>
