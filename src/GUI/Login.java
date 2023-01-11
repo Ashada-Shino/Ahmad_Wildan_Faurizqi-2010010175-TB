@@ -5,8 +5,10 @@
  */
 package GUI;
 
+import com.sun.glass.events.MouseEvent;
 import db.Koneksi;
 import java.awt.CardLayout;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,13 +51,9 @@ public class Login extends javax.swing.JFrame {
         btnLogin = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        btnForget1 = new javax.swing.JPanel();
-        jLabel14 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -63,12 +61,6 @@ public class Login extends javax.swing.JFrame {
         });
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
-        mainPanel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mainPanelMouseClicked(evt);
-            }
-        });
-        mainPanel.setLayout(new java.awt.CardLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -86,6 +78,7 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_username_40px.png"))); // NOI18N
 
         eUsername.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        eUsername.setForeground(new java.awt.Color(102, 102, 102));
         eUsername.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         eUsername.setText("Username");
         eUsername.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(102, 102, 102)));
@@ -97,12 +90,18 @@ public class Login extends javax.swing.JFrame {
                 eUsernameFocusLost(evt);
             }
         });
+        eUsername.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                eUsernameKeyPressed(evt);
+            }
+        });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_unlock_40px.png"))); // NOI18N
         jLabel1.setLabelFor(eUsername);
 
         ePassword.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        ePassword.setForeground(new java.awt.Color(102, 102, 102));
         ePassword.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         ePassword.setText("Password");
         ePassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 2, 0, new java.awt.Color(102, 102, 102)));
@@ -112,6 +111,11 @@ public class Login extends javax.swing.JFrame {
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
                 ePasswordFocusLost(evt);
+            }
+        });
+        ePassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                ePasswordKeyPressed(evt);
             }
         });
 
@@ -166,7 +170,6 @@ public class Login extends javax.swing.JFrame {
         );
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loggin.png"))); // NOI18N
-        jLabel6.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -191,18 +194,15 @@ public class Login extends javax.swing.JFrame {
                         .addGap(182, 182, 182)
                         .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(48, 48, 48)
-                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(35, 35, 35)
+                .addGap(0, 8, Short.MAX_VALUE)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(eUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -212,84 +212,32 @@ public class Login extends javax.swing.JFrame {
                     .addComponent(ePassword, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnForget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22))
+                .addGap(34, 34, 34))
+            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        mainPanel.add(jPanel1, "login");
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel2MouseClicked(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 36)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel7.setText("Please Wait...");
-
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icons8_loading_sign_96px.png"))); // NOI18N
-
-        btnForget1.setBackground(new java.awt.Color(255, 255, 255));
-        btnForget1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnForget1MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout btnForget1Layout = new javax.swing.GroupLayout(btnForget1);
-        btnForget1.setLayout(btnForget1Layout);
-        btnForget1Layout.setHorizontalGroup(
-            btnForget1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 120, Short.MAX_VALUE)
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        btnForget1Layout.setVerticalGroup(
-            btnForget1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 25, Short.MAX_VALUE)
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addGap(0, 20, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Loggin.png"))); // NOI18N
-        jLabel14.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnForget1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 258, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(48, 48, 48)
-                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel7)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
-                        .addComponent(btnForget1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        mainPanel.add(jPanel2, "splash");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -334,8 +282,6 @@ public class Login extends javax.swing.JFrame {
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
         // TODO add your handling code here:
-        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
-        c1.show(mainPanel, "splash");
         Koneksi koneksi = new Koneksi();
         Connection connection = koneksi.getConnection();
         String query = "SELECT * FROM tbl_login WHERE username='"+eUsername.getText()+"' "
@@ -354,8 +300,6 @@ public class Login extends javax.swing.JFrame {
                     "Username Atau Password Salah ...!",
                     "",
                     JOptionPane.ERROR_MESSAGE);
-            CardLayout c2 = (CardLayout)(mainPanel.getLayout());
-            c2.show(mainPanel, "login");
             eUsername.setText("");
             eUsername.requestFocus();
             ePassword.setText("Password");
@@ -373,9 +317,8 @@ public class Login extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        CardLayout c1 = (CardLayout)(mainPanel.getLayout());
-        c1.show(mainPanel, "dataPenempatan");
         jLabel6.requestFocus();
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void btnForgetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForgetMouseClicked
@@ -386,17 +329,44 @@ public class Login extends javax.swing.JFrame {
                     JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_btnForgetMouseClicked
 
-    private void mainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseClicked
+    private void eUsernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_eUsernameKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_mainPanelMouseClicked
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+            ePassword.requestFocus();
+        }
+    }//GEN-LAST:event_eUsernameKeyPressed
 
-    private void btnForget1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnForget1MouseClicked
+    private void ePasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ePasswordKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnForget1MouseClicked
+        if (evt.getKeyCode()==KeyEvent.VK_ENTER) {
+        Koneksi koneksi = new Koneksi();
+        Connection connection = koneksi.getConnection();
+        String query = "SELECT * FROM tbl_login WHERE username='"+eUsername.getText()+"' "
+                        + "AND password='"+String.copyValueOf(ePassword.getPassword())+"'";
+        Statement st;
+        ResultSet rs;
+        try {st = connection.createStatement();
+            rs = st.executeQuery(query);
 
-    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel2MouseClicked
+            if (rs.next()) {
+                Aplikasi fi = new Aplikasi();
+                fi.setVisible(true);
+                dispose();
+            }else{
+            JOptionPane.showMessageDialog(null,
+                    "Username Atau Password Salah ...!",
+                    "",
+                    JOptionPane.ERROR_MESSAGE);
+            eUsername.setText("");
+            eUsername.requestFocus();
+            ePassword.setText("Password");
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
+    }//GEN-LAST:event_ePasswordKeyPressed
 
     /**
      * @param args the command line arguments
@@ -435,21 +405,16 @@ public class Login extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnForget;
-    private javax.swing.JPanel btnForget1;
     private javax.swing.JPanel btnLogin;
     private javax.swing.JPasswordField ePassword;
     private javax.swing.JTextField eUsername;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 }
