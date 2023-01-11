@@ -493,6 +493,8 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         btnHapusDM = new javax.swing.JPanel();
         jLabel31 = new javax.swing.JLabel();
+        btnCetakDM = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
         eCariDM = new javax.swing.JTextField();
         btnCariDM = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -524,6 +526,8 @@ public class Aplikasi extends javax.swing.JFrame {
         jLabel32 = new javax.swing.JLabel();
         eCariDK = new javax.swing.JTextField();
         btnCariDK = new javax.swing.JLabel();
+        btnCetakDK = new javax.swing.JPanel();
+        jLabel36 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tDK = new javax.swing.JTable();
 
@@ -1485,6 +1489,8 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(690, 34));
+
         btnTambahDM.setBackground(new java.awt.Color(102, 153, 255));
         btnTambahDM.setAlignmentY(0.0F);
         btnTambahDM.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -1569,6 +1575,31 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(jLabel31, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+        btnCetakDM.setBackground(new java.awt.Color(102, 153, 255));
+        btnCetakDM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCetakDMMouseClicked(evt);
+            }
+        });
+
+        jLabel35.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel35.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
+        jLabel35.setText("Cetak");
+
+        javax.swing.GroupLayout btnCetakDMLayout = new javax.swing.GroupLayout(btnCetakDM);
+        btnCetakDM.setLayout(btnCetakDMLayout);
+        btnCetakDMLayout.setHorizontalGroup(
+            btnCetakDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel35, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+        btnCetakDMLayout.setVerticalGroup(
+            btnCetakDMLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel35, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         eCariDM.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         eCariDM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -1583,6 +1614,7 @@ public class Aplikasi extends javax.swing.JFrame {
         jLayeredPane1.setLayer(btnTambahDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(btnEditDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(btnHapusDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(btnCetakDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(eCariDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(btnCariDM, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -1596,6 +1628,8 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addComponent(btnEditDM, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHapusDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCetakDM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(eCariDM, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -1609,6 +1643,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(btnHapusDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(eCariDM)
             .addComponent(btnCariDM, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(btnCetakDM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         tDM.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
@@ -1664,7 +1699,7 @@ public class Aplikasi extends javax.swing.JFrame {
                     .addGroup(mainDataMasukLayout.createSequentialGroup()
                         .addGroup(mainDataMasukLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE)
-                            .addComponent(jLayeredPane1))
+                            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 926, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         mainDataMasukLayout.setVerticalGroup(
@@ -2016,11 +2051,37 @@ public class Aplikasi extends javax.swing.JFrame {
         btnCariDK.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search.png"))); // NOI18N
         btnCariDK.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
 
+        btnCetakDK.setBackground(new java.awt.Color(102, 153, 255));
+        btnCetakDK.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnCetakDKMouseClicked(evt);
+            }
+        });
+
+        jLabel36.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel36.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel36.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/hapus_data.png"))); // NOI18N
+        jLabel36.setText("Cetak");
+
+        javax.swing.GroupLayout btnCetakDKLayout = new javax.swing.GroupLayout(btnCetakDK);
+        btnCetakDK.setLayout(btnCetakDKLayout);
+        btnCetakDKLayout.setHorizontalGroup(
+            btnCetakDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel36, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+        );
+        btnCetakDKLayout.setVerticalGroup(
+            btnCetakDKLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
         jLayeredPane2.setLayer(btnTambahDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(btnEditDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(btnHapusDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(eCariDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane2.setLayer(btnCariDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane2.setLayer(btnCetakDK, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jLayeredPane2Layout = new javax.swing.GroupLayout(jLayeredPane2);
         jLayeredPane2.setLayout(jLayeredPane2Layout);
@@ -2032,7 +2093,9 @@ public class Aplikasi extends javax.swing.JFrame {
                 .addComponent(btnEditDK, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHapusDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 348, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnCetakDK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 232, Short.MAX_VALUE)
                 .addComponent(eCariDK, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(btnCariDK, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2045,6 +2108,7 @@ public class Aplikasi extends javax.swing.JFrame {
             .addComponent(btnHapusDK, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(eCariDK)
             .addComponent(btnCariDK, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+            .addComponent(btnCetakDK, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         tDK.setFont(new java.awt.Font("Segoe UI Semilight", 0, 14)); // NOI18N
@@ -2155,6 +2219,7 @@ public class Aplikasi extends javax.swing.JFrame {
         btnTambahDK.setVisible(true);
         btnEditDK.setVisible(true);
         btnHapusDK.setVisible(true);
+        btnCetakDK.setVisible(false);
         resetTableDK("");
     }//GEN-LAST:event_subAsetKeluarMouseClicked
 
@@ -2164,6 +2229,7 @@ public class Aplikasi extends javax.swing.JFrame {
         btnTambahDM.setVisible(true);
         btnEditDM.setVisible(true);
         btnHapusDM.setVisible(true);
+        btnCetakDM.setVisible(false);
         CardLayout c1 = (CardLayout)(mainPanel.getLayout());
         c1.show(mainPanel, "dataMasuk");
         resetTableDM("");
@@ -2230,6 +2296,7 @@ public class Aplikasi extends javax.swing.JFrame {
         btnTambahDM.setVisible(false);
         btnEditDM.setVisible(false);
         btnHapusDM.setVisible(false);
+        btnCetakDM.setVisible(true);
         c1.show(mainPanel, "dataMasuk");
         resetTableDM("");
     }//GEN-LAST:event_subLaporanMasukMouseClicked
@@ -2242,6 +2309,7 @@ public class Aplikasi extends javax.swing.JFrame {
         btnTambahDK.setVisible(false);
         btnEditDK.setVisible(false);
         btnHapusDK.setVisible(false);
+        btnCetakDK.setVisible(true);
         resetTableDK("");
     }//GEN-LAST:event_subLaporanKeluarMouseClicked
 
@@ -2617,6 +2685,22 @@ public class Aplikasi extends javax.swing.JFrame {
         resetTableDK("");
     }//GEN-LAST:event_card3MouseClicked
 
+    private void btnCetakDMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakDMMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null,
+                    "Fitur Dalam Tahap Pengembangan",
+                    "",
+                    JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_btnCetakDMMouseClicked
+
+    private void btnCetakDKMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCetakDKMouseClicked
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null,
+                    "Fitur Dalam Tahap Pengembangan",
+                    "",
+                    JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_btnCetakDKMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -2662,6 +2746,8 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel btnCariDM;
     private javax.swing.JLabel btnCariLokasi;
     private javax.swing.JLabel btnCariPenempatan;
+    private javax.swing.JPanel btnCetakDK;
+    private javax.swing.JPanel btnCetakDM;
     private javax.swing.JPanel btnEditAset;
     private javax.swing.JPanel btnEditDK;
     private javax.swing.JPanel btnEditDM;
@@ -2670,6 +2756,8 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JPanel btnHapusAset;
     private javax.swing.JPanel btnHapusDK;
     private javax.swing.JPanel btnHapusDM;
+    private javax.swing.JPanel btnHapusDM1;
+    private javax.swing.JPanel btnHapusDM2;
     private javax.swing.JPanel btnHapusLokasi;
     private javax.swing.JPanel btnHapusPenempatan;
     private javax.swing.JPanel btnTambahAset;
@@ -2711,6 +2799,10 @@ public class Aplikasi extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
     private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;

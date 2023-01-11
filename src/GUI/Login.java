@@ -351,9 +351,9 @@ public class Login extends javax.swing.JFrame {
                 dispose();
             }else{
             JOptionPane.showMessageDialog(null,
-                    "Masukkan Username & Password dengan Benar ...!",
-                    "Warning",
-                    JOptionPane.WARNING_MESSAGE);
+                    "Username Atau Password Salah ...!",
+                    "",
+                    JOptionPane.ERROR_MESSAGE);
             CardLayout c2 = (CardLayout)(mainPanel.getLayout());
             c2.show(mainPanel, "login");
             eUsername.setText("");
@@ -382,8 +382,8 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null,
                     "Silahkan Menghubungi Admin",
-                    "Forget Password",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "",
+                    JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_btnForgetMouseClicked
 
     private void mainPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mainPanelMouseClicked
